@@ -6,7 +6,7 @@ import SignInWithOAuth from '@/components/SignInWithOAuth';
 
 export default function Login() {
     return (
-        <View style={{ alignItems: 'center'}}>
+        <View style={{ alignItems: 'center' }}>
             <Image source={appImage} style={styles.appImage} />
             <View style={{
                 backgroundColor: Colors.white,
@@ -19,8 +19,8 @@ export default function Login() {
             }}>
                 <Text style={styles.heading}>Your Ultimate Doctor</Text>
                 <Text style={styles.heading}>Appointment Booking App</Text>
-                <Text style={{ textAlign: 'center', marginTop: 20, marginBottom: 40}}>Book Appointments Effortlessly and manager your health journey</Text>
-                <SignInWithOAuth/>
+                <Text style={{ textAlign: 'center', marginTop: 20, marginBottom: 40 }}>Book Appointments Effortlessly and manager your health journey</Text>
+                <SignInWithOAuth />
             </View>
         </View>
     )

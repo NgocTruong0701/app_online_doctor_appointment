@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "76558726637",
+    "project_id": "online-doctor-appointmen-18f9a",
+    "storage_bucket": "online-doctor-appointmen-18f9a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:76558726637:android:ac604a10143ef3b9a463e4",
+        "android_client_info": {
+          "package_name": "com.doctor.appointment.online"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "76558726637-fu0g9kfmmkjlstnep9nebonum29tdeup.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.doctor.appointment.online",
+            "certificate_hash": "d8dca1bd02557550f62971e54715918dbbccf35b"
+          }
+        },
+        {
+          "client_id": "76558726637-jp6bsvqrdq3t0eeockm1g89o3dhajv2g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgzjFxtU1DcXFqhzPJqBCHiWcwAKfkIlk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "76558726637-jp6bsvqrdq3t0eeockm1g89o3dhajv2g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

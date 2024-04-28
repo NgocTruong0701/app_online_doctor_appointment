@@ -20,19 +20,21 @@ export default function App() {
     return null;
   }
   return (
-    <ClerkProvider publishableKey={`${process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY}`}>
-      <SafeAreaView style={styles.container}>
-        <StatusBar hidden />
+    // <ClerkProvider publishableKey={`${process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY}`}>
+    <SafeAreaView style={styles.container}>
+      <StatusBar hidden />
+      <NavigationContainer>
+        <TabNavigation />
+      </NavigationContainer>
+      {/*
         <SignedIn>
-          <NavigationContainer>
-            <TabNavigation />
-          </NavigationContainer>
+          
         </SignedIn>
-        <SignedOut>
-          <Login />
-        </SignedOut>
-      </SafeAreaView>
-    </ClerkProvider>
+        <SignedOut> */}
+      <Login />
+      {/* </SignedOut> */}
+    </SafeAreaView>
+    // </ClerkProvider>
   );
 }
 

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "doctor_appoiment_app",
-    "slug": "doctor_appoiment_app",
+    "name": "Online Doctor Appointment",
+    "slug": "online-doctor-appointment-u30fdpvuvjwzhndzkrc",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,6 +18,8 @@
       "supportsTablet": true
     },
     "android": {
+      "googleServicesFile": "./google-services.json",
+      "package": "com.doctor.appointment.online",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -27,7 +29,24 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-font"
-    ]
+      "expo-font",
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth",
+      "@react-native-google-signin/google-signin",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "e19d41ac-43b0-43ba-9d1c-1fe3c36ee698"
+      }
+    },
+    "owner": "truong.lengoc"
   }
 }

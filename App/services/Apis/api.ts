@@ -5,4 +5,5 @@ export const API = {
     BASE_URL: process.env.EXPO_PUBLIC_BASE_URL,
 
     API_GET_DOCTORS: '/doctors',
+    LOGIN_GOOGLE: '/auth/login-google',
 }
