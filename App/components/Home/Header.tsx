@@ -1,11 +1,9 @@
 import { Image, Text, View } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import { OutfitBold, OutfitRegular } from "@assets/Shared/typography";
+import { IUser } from "@/redux/reducers/user";
 
 export default function Header() {
-    // if (!isLoaded || !isSignedIn) {
-    //     return null;
-    // }
     return (
         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <View style={{ display: 'flex', flexDirection: 'row', gap: 7, alignItems: 'center' }}>

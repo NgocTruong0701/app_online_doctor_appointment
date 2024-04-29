@@ -7,6 +7,12 @@ import TabNavigation from '@/navigations/TabNavigation';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import { OutfitBold, OutfitLight, OutfitRegular, OutfitSemiBold } from '@assets/Shared/typography';
+import { createStackNavigator } from '@react-navigation/stack';
+import { Provider } from 'react-redux';
+import store from '@/redux/store';
+import LoadingIndicator from '@/components/Loading/LoadingIndicator';
+
+const Stack = createStackNavigator();
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
@@ -19,22 +25,26 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
+
+  const isLoggedIn = false;
+
   return (
-    // <ClerkProvider publishableKey={`${process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY}`}>
+    <Provider store={store}>
     <SafeAreaView style={styles.container}>
+      <LoadingIndicator />
       <StatusBar hidden />
       <NavigationContainer>
-        <TabNavigation />
+        <Stack.Navigator>
+          <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
+          <Stack.Screen
+            name="TabNavigation"
+            component={TabNavigation}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
       </NavigationContainer>
-      {/*
-        <SignedIn>
-          
-        </SignedIn>
-        <SignedOut> */}
-      <Login />
-      {/* </SignedOut> */}
     </SafeAreaView>
-    // </ClerkProvider>
+    </Provider>
   );
 }
 
