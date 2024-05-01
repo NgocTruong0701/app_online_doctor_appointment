@@ -10,7 +10,6 @@ export const getUser = createAsyncThunk(
         return axiosClient
             .get(API.API_GET_USER)
             .then((response) => {
-                console.log(response.data);
                 return response.data.data;
             })
             .catch((err) => {

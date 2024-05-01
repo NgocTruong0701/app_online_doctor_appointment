@@ -1,17 +1,19 @@
-interface IPatient {
+import { IUser } from "."
+
+export interface IPatient {
     id: number,
     name: string,
-    date_of_birth: Date,
+    date_of_birth: string,
     gender: number,
     phone_number: string,
     avatar: string,
     address: string
 }
 
-interface IDoctor {
+export interface IDoctor {
     id: number,
     name: string,
-    date_of_birth: Date,
+    date_of_birth: string,
     gender: number,
     phone_number: string,
     avatar: string,
@@ -27,14 +29,7 @@ export interface ISpecializtion {
 }
 
 export interface ITypeUserResponse {
-    data: {
-        id: number,
-        email: string,
-        role: string,
-        verified: boolean,
-        patient: IPatient | null,
-        doctor: IDoctor | null,
-    },
+    data: IUser,
     statusCode: number,
     message: string
 }

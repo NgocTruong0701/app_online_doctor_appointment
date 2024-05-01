@@ -28,19 +28,6 @@ export default function Slider() {
     const height = 170;
     return (
         <View style={{ marginTop: 10 }}>
-            {/* <FlatList
-                data={sliderList}
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-                renderItem={({ item }) => (
-                    <Image
-                        source={item.imageUrl}
-                        style={{ width: Dimensions.get('screen').width * 0.9, height: 170, borderRadius: 10, margin: 2 }}
-                        alt={item.name}
-                    />
-                )}
-            /> */}
-
             <Carousel
                 loop
                 width={width}
@@ -53,7 +40,7 @@ export default function Slider() {
                 renderItem={({ item }) => (
                     <Image
                         source={item.imageUrl}
-                        style={{ width: Dimensions.get('screen').width * 0.9, height: 170, borderRadius: 10, margin: 2 }}
+                        style={{ width: Dimensions.get('screen').width * 0.9, height: 170, borderRadius: 40, margin: 2 }}
                         alt={item.name}
                     />
                 )}

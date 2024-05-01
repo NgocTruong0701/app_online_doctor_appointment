@@ -8,12 +8,11 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import axiosClient from '@/services/Apis/axiosClient';
 import { API } from '@/services/Apis/api';
 import { storage } from '@/localStorage';
-import LoadingIndicator from '@/components/Loading/LoadingIndicator';
 import { useAppDispatch } from '@/redux/store';
-import { actions as userActions } from '@/redux/reducers/user';
+import { actions as appStateAction } from '@/redux/reducers/appState';
 
-export default function Login() {    
-    const dispath = useAppDispatch();
+export default function Login() {
+    const dispatch = useAppDispatch();
     const navigation = useNavigation();
     GoogleSignin.configure({
         webClientId: '76558726637-jp6bsvqrdq3t0eeockm1g89o3dhajv2g.apps.googleusercontent.com',
@@ -21,7 +20,7 @@ export default function Login() {
 
     const onGoogleButtonPress = async () => {
         // setIsLoading(true);
-        dispath(userActions.showLoading())
+        dispatch(appStateAction.showLoading())
 
         // Check if your device supports Google Play
         await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
@@ -30,11 +29,12 @@ export default function Login() {
         try {
             const res = await axiosClient.post(API.LOGIN_GOOGLE, { 'token': idToken });
             storage.set('token', res.data.access_token);
+            dispatch(appStateAction.login());
             navigation.navigate('TabNavigation' as never);
         } catch (error) {
             console.log(error);
         } finally {
-            dispath(userActions.hideLoading())
+            dispatch(appStateAction.hideLoading())
         }
     }
     return (

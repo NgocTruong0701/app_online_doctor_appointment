@@ -1,34 +1,29 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { getUser } from "./thunk";
-import { ITypeUserResponse } from "./type";
+import { IDoctor, IPatient } from "./type";
 
 export interface IUser {
     id?: number;
-    name?: string;
-    email: string;
-    avatar?: string;
-    phone?: string;
-    birthDay?: string;
-    gender?: number;
-    address?: string;
+    email?: string;
+    patient?: IPatient;
+    doctor?: IDoctor;
+    role?: string;
+    verified?: boolean;
 }
 const initialState: IUserInfo = {
     user: {
         id: 0,
-        name: "",
+        doctor: undefined,
         email: "",
-        phone: "",
-        birthDay: "",
-        gender: 0,
-        address: "",
-    },
-    isLoading: false
+        patient: undefined,
+        role: "",
+        verified: false,
+    }
 };
 
 export interface IUserInfo {
     user: IUser;
-    isLoading: boolean
 }
 
 const userSlice = createSlice({
@@ -36,17 +31,11 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         getUser(state) { },
-        showLoading(state){
-            return {...state, isLoading: true}
-        },
-        hideLoading(state){
-            return {...state, isLoading: false}
-        }
     },
     extraReducers(builder) {
         builder.addCase(
             getUser.fulfilled,
-            (state, action: PayloadAction<IUser>) => {                
+            (state, action: PayloadAction<IUser>) => {
                 state.user = { ...action.payload }
             },
         );

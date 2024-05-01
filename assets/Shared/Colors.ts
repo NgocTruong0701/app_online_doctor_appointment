@@ -53,6 +53,7 @@ export default {
     light_gray: "#E6E8EB",
     purple: "#9D28AC",
     red: "#F54336",
+    text_gray: '#666666',
     secondary100: "#FDD3E7",
     secondary200: "#FDBEDB",
     secondary300: "#FCA8CF",

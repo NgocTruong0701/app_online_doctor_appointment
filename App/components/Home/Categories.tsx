@@ -1,8 +1,11 @@
 import axiosClient from "@/services/Apis/axiosClient";
 import { Colors } from "@assets/Shared";
-import { OutfitBold, OutfitRegular } from "@assets/Shared/typography";
+import { OutfitBold, OutfitRegular, OutfitSemiBold } from "@assets/Shared/typography";
 import { useEffect, useState } from "react";
-import { FlatList, Image, Text, View } from "react-native";
+import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
+import SubHeading from "./SubHeading";
+import { useNavigation } from "@react-navigation/native";
+import { DoctorOfSpecialityListNavigationProp } from "@/navigations/type";
 
 interface ICategory {
     id: number,
@@ -14,6 +17,7 @@ interface ICategory {
 }
 
 export default function Categories() {
+    const navigation = useNavigation();
     const [categories, setCategories] = useState([] as ICategory[]);
 
     useEffect(() => {
@@ -26,25 +30,54 @@ export default function Categories() {
         return null;
     }
 
-    console.log(categories);
+    const moreButton: ICategory = {
+        id: categories.length + 1,
+        name: "More",
+        created_at: new Date(),
+        updated_at: new Date(),
+        description: "More",
+        icon: "https://doctor-appointment-bucket.s3.ap-southeast-1.amazonaws.com/category/horizontal-menu-circle--navigation-dots-three-circle-button-horizontal-menu.png"
+    }
     return (
         <View style={{ marginTop: 10 }}>
-            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Text style={{
-                    fontSize: 20,
-                    fontFamily: OutfitBold
-                }}>Doctor Speciality</Text>
-                <Text style={{ fontFamily: OutfitRegular, color: Colors.primary }}>See All</Text>
-            </View>
+            <SubHeading subHeadingTitle={"Doctor Speciality"} />
 
             <FlatList
-                data={categories}
-                renderItem={({ item }) => (
-                    <View>
-                        <View>
-                            <Image source={{ uri: item.icon }} style={{ width: 30, height: 30 }} />
+                data={[...categories, moreButton]}
+                numColumns={4}
+                columnWrapperStyle={{
+                    flex: 1,
+                    justifyContent: 'space-between',
+                }}
+                style={{ marginTop: 5 }}
+                renderItem={({ item, index }) => index < 8 && (
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('DoctorOfSpecialityList', {
+                            categoryName: item.name,
+                        })}
+                        style={{
+                            alignItems: 'center', marginBottom: 10
+                        }}>
+                        <View style={{
+                            backgroundColor: Colors.secondary,
+                            padding: 15,
+                            borderRadius: 99,
+                        }}>
+                            <Image source={{ uri: item.icon }} style={{ width: 40, height: 40 }} />
                         </View>
-                    </View>
+                        <Text
+                            style={{
+                                marginTop: 15,
+                                fontFamily: OutfitRegular,
+                                width: 80,
+                                textAlign: 'center'
+                            }}
+                            numberOfLines={1}
+                            ellipsizeMode="tail"
+                        >
+                            {item.name}
+                        </Text>
+                    </TouchableOpacity>
                 )}
             />
         </View>

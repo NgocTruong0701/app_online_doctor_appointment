@@ -1,5 +1,6 @@
 import Login from '@/screens/Login';
 import { createStackNavigator } from '@react-navigation/stack';
+import Profile from '../screens/Profile';
 
 const Stack = createStackNavigator();
 
@@ -10,6 +11,7 @@ export default function AuthStack() {
     }}
     >
       <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name='Profile' component={Profile} />
     </Stack.Navigator>
   );
 }

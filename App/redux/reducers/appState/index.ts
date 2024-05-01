@@ -10,7 +10,7 @@ const initialState: IAppState = {
     isLogin: false,
 };
 
-const userSlice = createSlice({
+const appStateSlice = createSlice({
     name: "appState",
     initialState,
     reducers: {
@@ -28,3 +28,5 @@ const userSlice = createSlice({
         }
     }
 });
+
+export const { actions, reducer } = appStateSlice;

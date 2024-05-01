@@ -1,12 +1,11 @@
 import { useAppSelector } from '@/redux/store';
 import React from 'react';
 import { ActivityIndicator, Dimensions, StyleSheet, View } from 'react-native';
-import { useSelector } from 'react-redux';
 
 
 const LoadingIndicator = () => {
-    const {isLoading} = useAppSelector(s => s.user)
-    if(!isLoading) return null;
+    const { isLoading } = useAppSelector(s => s.appState);
+    if (!isLoading) return null;
     return (
         <View style={styles.overlay}>
             <ActivityIndicator size="large" color="#0000ff" />
