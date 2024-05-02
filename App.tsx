@@ -10,6 +10,8 @@ import { Provider } from 'react-redux';
 import store from '@/redux/store';
 import LoadingIndicator from '@/components/Loading/LoadingIndicator';
 import { storage } from '@/localStorage';
+import { navigationRef } from '@/navigations/Root';
+
 
 const Stack = createStackNavigator();
 
@@ -31,26 +33,14 @@ export default function App() {
       <SafeAreaView style={styles.container}>
         <LoadingIndicator />
         <StatusBar hidden />
-        <NavigationContainer>
-          <Stack.Navigator>
-            {
-              !token ?
-                (
-                  <>
-                    <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
-                    <Stack.Screen
-                      name="TabNavigation"
-                      component={TabNavigation}
-                      options={{ headerShown: false }}
-                    />
-                  </>
-                ) :
-                <Stack.Screen
-                  name="TabNavigation"
-                  component={TabNavigation}
-                  options={{ headerShown: false }}
-                />
-            }
+        <NavigationContainer ref={navigationRef}>
+          <Stack.Navigator initialRouteName='TabNavigation'>
+            <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
+            <Stack.Screen
+              name="TabNavigation"
+              component={TabNavigation}
+              options={{ headerShown: false }}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaView>

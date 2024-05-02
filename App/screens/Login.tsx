@@ -10,8 +10,11 @@ import { API } from '@/services/Apis/api';
 import { storage } from '@/localStorage';
 import { useAppDispatch } from '@/redux/store';
 import { actions as appStateAction } from '@/redux/reducers/appState';
+import { navigate } from '@/navigations/Root';
 
 export default function Login() {
+    const token = storage.getString('token');
+    if(token) navigate('TabNavigation')
     const dispatch = useAppDispatch();
     const navigation = useNavigation();
     GoogleSignin.configure({

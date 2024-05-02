@@ -3,6 +3,7 @@ import { API } from "./api";
 import { storage } from "@/localStorage";
 import { ResponseStatus } from "@/constants/constants";
 import { useNavigation } from "@react-navigation/native";
+import { navigate } from "@/navigations/Root";
 
 
 const axiosClient = axios.create({
@@ -46,7 +47,10 @@ axiosClient.interceptors.response.use(
         const accessToken = storage.getString('token');
         if (error?.response?.status === ResponseStatus.UNAUTHORIZED) {
             accessToken && storage.set('token', "");
+            storage.clearAll();
+            navigate('Login');
         }
+        navigate('Login');
         return Promise.reject(error);
     },
 );
