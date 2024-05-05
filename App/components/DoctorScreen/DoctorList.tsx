@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 import axiosClient from "@/services/Apis/axiosClient";
 import { API } from "@/services/Apis/api";
 import { IDoctorResponse } from "@/redux/type";
+import { useNavigation } from "@react-navigation/native";
 
 export default function DoctorList() {
     const [doctors, setDoctors] = useState<IDoctorResponse[]>([]);
+    const navigation = useNavigation();
 
     useEffect(() => {
         axiosClient.get(API.API_GET_DOCTORS).then((response) => {
@@ -21,7 +23,9 @@ export default function DoctorList() {
             <FlatList
                 data={doctors}
                 renderItem={({ item }) => (
-                    <TouchableOpacity style={{marginBottom: 20}}>
+                    <TouchableOpacity style={{marginBottom: 20}} onPress={() => navigation.navigate('DoctorDetails', {
+                        doctor: item
+                    })}>
                         <DoctorCard doctor={item} />
                     </TouchableOpacity>
                 )}

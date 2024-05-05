@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { Image, Text, View } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import { OutfitBold, OutfitRegular } from "@assets/Shared/typography";
@@ -14,13 +14,12 @@ export default function Header() {
 
     const navigation = useNavigation();
     // Fetch user data on component focus
-    useFocusEffect(
-        useCallback(() => {
-            dispatch(getUser()).catch(error => {
-                navigation.navigate("Login" as never);
-            });
-        }, []),
-    );
+    useEffect(() => {
+        dispatch(getUser()).catch(error => {
+            console.error(error.message);
+            navigation.navigate("Login" as never);
+        });
+    }, [])
 
     // Extract user data
     const { doctor, patient } = user.user;

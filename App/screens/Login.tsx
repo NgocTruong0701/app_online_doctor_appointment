@@ -14,7 +14,7 @@ import { navigate } from '@/navigations/Root';
 
 export default function Login() {
     const token = storage.getString('token');
-    if(token) navigate('TabNavigation')
+    if (token) navigate('TabNavigation')
     const dispatch = useAppDispatch();
     const navigation = useNavigation();
     GoogleSignin.configure({
@@ -33,9 +33,10 @@ export default function Login() {
             const res = await axiosClient.post(API.LOGIN_GOOGLE, { 'token': idToken });
             storage.set('token', res.data.access_token);
             dispatch(appStateAction.login());
-            navigation.navigate('TabNavigation' as never);
+
+            navigation.navigate('TabNavigation', { screen: 'Home' });
         } catch (error) {
-            console.log(error);
+            console.error(error);
         } finally {
             dispatch(appStateAction.hideLoading())
         }

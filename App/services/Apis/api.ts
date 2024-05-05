@@ -7,4 +7,9 @@ export const API = {
     API_GET_DOCTORS: '/doctors',
     LOGIN_GOOGLE: '/auth/login-google',
     API_GET_USER: '/users/profile',
+    API_GET_SPECIALIZATIONS: '/specializations',
+    API_BASE_FEEDBACK: '/feedbacks',
+    API_GET_COUNT_PATIENT_BY_DOCTOR: '/doctors/count-patients',
+    API_GET_TIMEWORKING: '/doctors/get-timeworking',
+    API_BASE_PATIENT: '/patients'
 }

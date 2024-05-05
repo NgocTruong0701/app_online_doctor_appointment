@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 interface IPageHeaderProps {
-    title: string;
+    title: string | undefined;
 }
 
 export default function PageHeader({ title }: IPageHeaderProps) {

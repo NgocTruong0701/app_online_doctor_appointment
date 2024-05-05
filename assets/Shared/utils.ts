@@ -56,3 +56,35 @@ export function boxShadow(
     elevation: radius,
   };
 }
+
+export function calculateAge(dateOfBirth: string) {
+  // Convert dateOfBirth to a Date object
+  const birthDate = new Date(dateOfBirth);
+
+  // Get today's date
+  const today = new Date();
+
+  // Calculate years
+  let age = today.getFullYear() - birthDate.getFullYear();
+
+  // Adjust for month and day
+  const monthDiff = today.getMonth() - birthDate.getMonth();
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+
+  return age;
+}
+
+export function calculateDateOfBirth(age: number) {
+  // Get today's date
+  const today = new Date();
+
+  // Estimate birth year
+  const estimatedBirthYear = today.getFullYear() - age;
+
+  // Create an estimated date of birth
+  const estimatedDateOfBirth = new Date(estimatedBirthYear, today.getMonth(), today.getDate());
+
+  return estimatedDateOfBirth;
+}

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import SubHeading from "./SubHeading";
 import { useNavigation } from "@react-navigation/native";
-import { DoctorOfSpecialityListNavigationProp } from "@/navigations/type";
+import { API } from "@/services/Apis/api";
 
 interface ICategory {
     id: number,
@@ -21,7 +21,7 @@ export default function Categories() {
     const [categories, setCategories] = useState([] as ICategory[]);
 
     useEffect(() => {
-        axiosClient.get("/specializations").then(response => {
+        axiosClient.get(API.API_GET_SPECIALIZATIONS).then(response => {
             setCategories(response.data)
         })
     }, [])

@@ -2,15 +2,27 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import { IDoctorItemProps } from "../Home/DoctorItem";
 import { FontAwesome } from '@expo/vector-icons';
 import { Colors } from "@assets/Shared";
-import { OutfitBold } from "@assets/Shared/typography";
-import { useState } from "react";
+import { OutfitBold, OutfitRegular } from "@assets/Shared/typography";
+import { useCallback, useEffect, useState } from "react";
+import axiosClient from "@/services/Apis/axiosClient";
+import { API } from "@/services/Apis/api";
 
-interface IRatingResponse {
-    
+export interface IRatingResponse {
+    averageRating: number;
+    feedbackCount: number;
 }
 
 export default function DoctorCard({ doctor }: IDoctorItemProps) {
-    const [rating, setRating] = useState(0);
+    const [averageRating, setAverageRating] = useState(0);
+    const [reviews, setReviews] = useState(0);
+
+    useEffect(() => {
+        axiosClient.get(`${API.API_BASE_FEEDBACK}/${doctor?.id}`).then((response) => {
+            const data = response.data.data as IRatingResponse;
+            setAverageRating(data.averageRating);
+            setReviews(data.feedbackCount);
+        });
+    }, [doctor?.id]);
     return (
         <View style={styles.container}>
             <Image source={{ uri: doctor?.avatar }} style={styles.image} />
@@ -24,7 +36,7 @@ export default function DoctorCard({ doctor }: IDoctorItemProps) {
                     <Text style={styles.textInfo}>{doctor?.specialization?.name} | {doctor?.hospital}</Text>
                     <View style={styles.rateInfo}>
                         <FontAwesome name="star-half-full" size={20} color={Colors.blue} />
-                        <Text style={styles.textInfo}>3.5   ({doctor.gender} reviews)</Text>
+                        <Text style={styles.textInfo}>{averageRating}   ({reviews} reviews)</Text>
                     </View>
                 </View>
             </View>
@@ -39,7 +51,6 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.white,
         borderRadius: 30,
         padding: 15,
-        marginBottom: 15,
     },
     image: {
         width: 120,
@@ -67,11 +78,13 @@ const styles = StyleSheet.create({
     },
     textInfo: {
         color: Colors.text_gray,
+        fontFamily: OutfitRegular
     },
     rateInfo: {
         display: 'flex',
         flexDirection: 'row',
         gap: 10,
         marginTop: 10,
+        fontFamily: OutfitRegular
     }
 });

@@ -13,7 +13,9 @@ export interface IDoctorResponse extends ITimeStamp {
     address?: string,
     specialization?: ISpecialization,
     hospital?: string,
-    experience?: number,
+    years_experience?: number,
+    description: string,
+    schedule: string,
 }
 
 export interface ISpecialization extends ITimeStamp {
