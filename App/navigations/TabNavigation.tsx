@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { Entypo } from '@expo/vector-icons';
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import HomeNavigation from "./HomeNavigation";
-import Message from "@/screens/Message";
+import MessageNavigation from "./MessageNavigation";
 
 const Tab = createBottomTabNavigator()
 export default function TabNavigation() {
@@ -20,7 +20,7 @@ export default function TabNavigation() {
                     )
                 }}
             />
-            <Tab.Screen name="Appointment" component={Appointment}
+            <Tab.Screen name="Appointment" component={MessageNavigation}
                 options={{
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons name="calendar-clock" size={size} color={color} />
@@ -30,7 +30,7 @@ export default function TabNavigation() {
             <Tab.Screen name="Profile" component={Profile}
                 options={{
                     tabBarIcon: ({ color, size }) => (
-                        <FontAwesome5 name="user" size={size} color={color}/>
+                        <FontAwesome5 name="user" size={size} color={color} />
                     )
                 }}
             />

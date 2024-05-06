@@ -31,10 +31,10 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <SafeAreaView style={styles.container}>
-        <LoadingIndicator />
-        <StatusBar hidden />
-        <GestureHandlerRootView style={{ flex: 1 }}>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <SafeAreaView style={styles.container}>
+          <LoadingIndicator />
+          <StatusBar hidden />
           <NavigationContainer ref={navigationRef}>
             <Stack.Navigator initialRouteName='TabNavigation'>
               <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
@@ -45,8 +45,8 @@ export default function App() {
               />
             </Stack.Navigator>
           </NavigationContainer>
-        </GestureHandlerRootView>
-      </SafeAreaView>
+        </SafeAreaView>
+      </GestureHandlerRootView>
     </Provider>
   );
 }
