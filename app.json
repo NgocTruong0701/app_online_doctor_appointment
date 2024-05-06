@@ -4,7 +4,7 @@
     "slug": "online-doctor-appointment-u30fdpvuvjwzhndzkrc",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/logo.jpg",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -21,7 +21,7 @@
       "googleServicesFile": "./google-services.json",
       "package": "com.doctor.appointment.online",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
       }
     },

@@ -15,6 +15,7 @@ export const ResponseStatus = {
   MAINTENANCE_MODE: 503,
 };
 export const genderOption = [
+  { label: "Choose gender", value: 0 },
   { label: "Male", value: 1 },
   { label: "Female", value: 2 },
 ];

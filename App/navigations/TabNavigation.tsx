@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { Entypo } from '@expo/vector-icons';
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import HomeNavigation from "./HomeNavigation";
+import Message from "@/screens/Message";
 
 const Tab = createBottomTabNavigator()
 export default function TabNavigation() {

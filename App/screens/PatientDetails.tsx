@@ -3,7 +3,7 @@ import PageHeader from "@/components/Share/PageHeader";
 import { Colors } from "@assets/Shared";
 import { OutfitBold, OutfitRegular } from "@assets/Shared/typography";
 import { useState } from "react";
-import { Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, Keyboard, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { Picker } from '@react-native-picker/picker';
 import { useAppDispatch, useAppSelector } from "@/redux/store";
@@ -54,7 +54,7 @@ export default function PatientDetails() {
     const handlSetAge = (age: number) => {
         setAge(age)
 
-        if (!patient?.gender) {
+        if (!patient?.date_of_birth) {
             const dateOfBirth = calculateDateOfBirth(age);
             axiosClient.patch(`${API.API_BASE_PATIENT}/${patient?.id}`, {
                 date_of_birth: dateOfBirth
@@ -71,87 +71,88 @@ export default function PatientDetails() {
     }
 
     return (
-        <>
-            <ScrollView style={styles.container}>
-                <PageHeader title="Patient Details" />
+        <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
+            <View onStartShouldSetResponder={() => true}>
+                <ScrollView style={styles.container}>
+                    <PageHeader title="Patient Details" />
 
-                <View style={{ marginRight: 10, marginLeft: 10 }}>
-                    <Title title="Full Name" />
-                    <View style={{ marginTop: 10, borderWidth: 0.6, borderColor: Colors.gray, padding: 10, borderRadius: 8, backgroundColor: Colors.white }}>
-                        <TextInput
-                            placeholder="Name"
-                            style={{ width: '100%', fontFamily: OutfitRegular }}
-                            value={patient?.name}
-                            readOnly={true}
-                        />
+                    <View style={{ marginRight: 10, marginLeft: 10 }}>
+                        <Title title="Full Name" />
+                        <View style={{ marginTop: 10, borderWidth: 0.6, borderColor: Colors.gray, padding: 10, borderRadius: 8, backgroundColor: Colors.white }}>
+                            <TextInput
+                                placeholder="Name"
+                                style={{ width: '100%', fontFamily: OutfitRegular }}
+                                value={patient?.name}
+                                readOnly={true}
+                            />
+                        </View>
                     </View>
-                </View>
 
-                <View style={{ marginRight: 10, marginLeft: 10 }}>
-                    <Title title="Gender" />
-                    <View style={styles.pickerContainer}>
-                        <Picker
-                            selectedValue={gender}
-                            onValueChange={(itemValue) => { void handlSetGender(itemValue) }}
-                            enabled={!patient?.gender}
-                        >
-                            {genderOption.map(item => (
-                                <Picker.Item key={item.value} value={item.value} label={item.label} style={styles.itemPicker} />
-                            ))}
-                        </Picker>
+                    <View style={{ marginRight: 10, marginLeft: 10 }}>
+                        <Title title="Gender" />
+                        <View style={styles.pickerContainer}>
+                            <Picker
+                                selectedValue={gender}
+                                onValueChange={(itemValue) => { void handlSetGender(itemValue) }}
+                                enabled={!patient?.gender}
+                            >
+                                {genderOption.map(item => (
+                                    <Picker.Item key={item.value} value={item.value} label={item.label} style={styles.itemPicker} />
+                                ))}
+                            </Picker>
+                        </View>
                     </View>
-                </View>
 
-                <View style={{ marginRight: 10, marginLeft: 10 }}>
-                    <Title title="Your Age" />
-                    <View style={styles.pickerContainer}>
-                        <Picker
-                            selectedValue={age}
-                            onValueChange={(itemValue) => { void handlSetAge(itemValue) }}
-                            enabled={!patient?.date_of_birth}
-                        >
-                            {Array.from({ length: 100 }, (_, i) => (
-                                <Picker.Item key={i} label={`${i + 1} years`} value={i + 1} />
-                            ))}
-                        </Picker>
+                    <View style={{ marginRight: 10, marginLeft: 10 }}>
+                        <Title title="Your Age" />
+                        <View style={styles.pickerContainer}>
+                            <Picker
+                                selectedValue={age}
+                                onValueChange={(itemValue) => { void handlSetAge(itemValue) }}
+                                enabled={!patient?.date_of_birth}
+                            >
+                                {Array.from({ length: 100 }, (_, i) => (
+                                    <Picker.Item key={i} label={`${i + 1} years`} value={i + 1} />
+                                ))}
+                            </Picker>
+                        </View>
                     </View>
-                </View>
 
-                <View style={{ marginRight: 10, marginLeft: 10 }}>
-                    <Title title="Write Your Problem" />
-                    <View style={{ marginTop: 10, borderWidth: 0.6, borderColor: Colors.gray, padding: 10, borderRadius: 8, backgroundColor: Colors.white }} >
-                        <TextInput
-                            multiline={true}
-                            numberOfLines={15}
-                            onChangeText={(text) => setProblem(text)}
-                            value={problem}
-                            placeholder="Enter your problem"
-                            style={{ textAlignVertical: 'top' }}
-                        />
+                    <View style={{ marginRight: 10, marginLeft: 10 }}>
+                        <Title title="Write Your Problem" />
+                        <View style={{ marginTop: 10, borderWidth: 0.6, borderColor: Colors.gray, padding: 10, borderRadius: 8, backgroundColor: Colors.white }} >
+                            <TextInput
+                                multiline={true}
+                                numberOfLines={15}
+                                onChangeText={(text) => setProblem(text)}
+                                value={problem}
+                                placeholder="Enter your problem"
+                                style={{ textAlignVertical: 'top' }}
+                            />
+                        </View>
                     </View>
+                </ScrollView>
+                <View style={{ backgroundColor: Colors.white, borderTopLeftRadius: 20, borderTopRightRadius: 20, alignItems: 'center' }} >
+                    <TouchableOpacity
+                        onPress={() => {
+                            dispatch(appointmentDetailActions.setProblem(problem));
+                            navigation.navigate('ReviewSummary' as never)
+                        }}
+                        style={{
+                            padding: 15,
+                            backgroundColor: Colors.primary,
+                            borderRadius: 90,
+                            alignItems: 'center',
+                            marginTop: 10,
+                            marginBottom: 10,
+                            width: Dimensions.get('screen').width * 0.9
+                        }}
+                    >
+                        <Text style={{ fontSize: 17, color: Colors.white }}>Next</Text>
+                    </TouchableOpacity>
                 </View>
-            </ScrollView>
-            <View style={{ backgroundColor: Colors.white, borderTopLeftRadius: 20, borderTopRightRadius: 20, alignItems: 'center' }} >
-                <TouchableOpacity
-                    onPress={() => {
-                        dispatch(appointmentDetailActions.setProblem(problem));
-                        navigation.navigate('ReviewSummary' as never)
-                    }}
-                    style={{
-                        padding: 15,
-                        backgroundColor: Colors.primary,
-                        borderRadius: 90,
-                        alignItems: 'center',
-                        marginTop: 10,
-                        marginBottom: 10,
-                        width: Dimensions.get('screen').width * 0.9
-                    }}
-                >
-                    <Text style={{ fontSize: 17, color: Colors.white }}>Next</Text>
-                </TouchableOpacity>
             </View>
-        </>
-
+        </TouchableWithoutFeedback>
     )
 }
 

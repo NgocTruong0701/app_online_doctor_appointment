@@ -10,16 +10,6 @@ import { Colors } from "@assets/Shared";
 
 export default function Header() {
     const { user } = useAppSelector((state) => state);
-    const dispatch = useAppDispatch();
-
-    const navigation = useNavigation();
-    // Fetch user data on component focus
-    useEffect(() => {
-        dispatch(getUser()).catch(error => {
-            console.error(error.message);
-            navigation.navigate("Login" as never);
-        });
-    }, [])
 
     // Extract user data
     const { doctor, patient } = user.user;
