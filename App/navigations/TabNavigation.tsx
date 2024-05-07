@@ -6,6 +6,7 @@ import { Entypo } from '@expo/vector-icons';
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import HomeNavigation from "./HomeNavigation";
 import MessageNavigation from "./MessageNavigation";
+import { Octicons } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator()
 export default function TabNavigation() {
@@ -20,10 +21,17 @@ export default function TabNavigation() {
                     )
                 }}
             />
-            <Tab.Screen name="Appointment" component={MessageNavigation}
+            <Tab.Screen name="Appointment" component={Appointment}
                 options={{
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons name="calendar-clock" size={size} color={color} />
+                    )
+                }}
+            />
+            <Tab.Screen name="History" component={MessageNavigation}
+                options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <Octicons name="checklist" size={size} color={color} />
                     )
                 }}
             />
