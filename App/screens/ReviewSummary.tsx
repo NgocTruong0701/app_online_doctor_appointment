@@ -1,7 +1,8 @@
 import CustomModal from "@/components/Modal";
 import PageHeader from "@/components/Share/PageHeader";
 import { packageAppoinment } from "@/constants/constants";
-import { useAppSelector } from "@/redux/store";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import axiosClient from "@/services/Apis/axiosClient";
 import { Colors } from "@assets/Shared";
 import { OutfitLight, OutfitRegular, OutfitSemiBold } from "@assets/Shared/typography";
 import { useNavigation } from "@react-navigation/native";
@@ -9,19 +10,23 @@ import moment from "moment";
 import { useState } from "react";
 import { Dimensions, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { actions as appActions } from "@/redux/reducers/appState";
 
 export default function ReviewSummary() {
     const { doctorSelected } = useAppSelector(state => state.doctorSelected);
     const { date, time, problem } = useAppSelector(state => state.appointmentDetails);
-    const { user } = useAppSelector(state => state.user);
+    const dispatch = useAppDispatch();
 
     const [isVisible, setIsVisible] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
+    const [message, setMessage] = useState('');
+    const [title, setTitle] = useState('');
+    const [textButton, setTextButton] = useState('');
 
     const timeFormat = moment(time, 'HH:mm');
     const dateObj = moment(date, "YYYY/MM/DD").toDate();
     const dateFormat = moment(dateObj).format("MMM DD, YYYY");
-
-    const navigation = useNavigation();
+    const datetime = moment(dateObj).format('YYYY-MM-DD') + ' ' + timeFormat.format('HH:mm:ss');
 
     return (
         <>
@@ -60,14 +65,29 @@ export default function ReviewSummary() {
                     </View>
                 </View>
 
-                <CustomModal isVisible={isVisible} setIsVisible={setIsVisible} />
+                <CustomModal isVisible={isVisible} setIsVisible={setIsVisible} isSuccess={isSuccess} message={message} title={title} textButton={textButton} />
             </ScrollView>
             <View style={{ backgroundColor: Colors.white, borderTopLeftRadius: 20, borderTopRightRadius: 20, alignItems: 'center' }} >
                 <TouchableOpacity
                     onPress={() => {
-                        setIsVisible(true);
-                        // dispatch(appointmentDetailActions.setProblem(problem));
-                        // navigation.navigate('ReviewSummary' as never)
+                        dispatch(appActions.showLoading());
+                        axiosClient.post('/patients/appointments', {
+                            date: datetime,
+                            description: problem,
+                            doctorId: doctorSelected.id,
+                            packageAppointmentId: 1,
+                            duration: 1
+                        }).then(response => {
+                            setIsVisible(true);
+                            setIsSuccess(true);
+                            setMessage('Appointment successfully booked. You will recive a notification and the doctor you selected will contact you');
+                            setTitle('Congratulations!');
+                            setTextButton('View Appointment')
+                        }).catch(error => {
+                            console.error(error.message);
+                        }).finally(() => {
+                            dispatch(appActions.hideLoading());
+                        });
                     }}
                     style={{
                         padding: 15,
@@ -79,7 +99,7 @@ export default function ReviewSummary() {
                         width: Dimensions.get('screen').width * 0.9
                     }}
                 >
-                    <Text style={{ fontSize: 17, color: Colors.white }}>Next</Text>
+                    <Text style={{ fontSize: 17, color: Colors.white, fontFamily: OutfitRegular }}>Next</Text>
                 </TouchableOpacity>
             </View>
         </>

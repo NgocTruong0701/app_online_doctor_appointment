@@ -34,13 +34,17 @@ export default function Appointment() {
     const [appointments, setAppointments] = useState<IAppointment[]>([]);
     const [activeTab, setActiveTab] = useState(appointmentStatus.UPCOMING);
     const navigation = useNavigation();
+    const [isLoading, setIsLoading] = useState(true);
 
     useFocusEffect(
         useCallback(() => {
             axiosClient.get(`${API.API_GET_APPOINTMENT_BY_USERID}/${user.id}?status=${activeTab}`)
                 .then((response) => {
                     setAppointments(response.data.data as IAppointment[]);
-                }).catch((error) => { console.error(error.message); navigation.navigate("Login" as never); });
+                }).catch((error) => { console.error(error.message); navigation.navigate("Login" as never); })
+                .finally(() => {
+                    setIsLoading(false);
+                });
         }, [user.id, activeTab])
     );
 
@@ -49,7 +53,7 @@ export default function Appointment() {
             <View>
                 <Text style={{ fontFamily: OutfitBold, fontSize: 20, backgroundColor: Colors.white, padding: 15 }}>My Appointment</Text>
                 <AppointmentTab setActiveTab={(value: string) => { setActiveTab(value); }} />
-                {!appointments?.length
+                {isLoading == true
                     ? <ActivityIndicator size={'large'} color={Colors.primary} />
                     : <AppointmentMessList appointment={appointments} />
                 }

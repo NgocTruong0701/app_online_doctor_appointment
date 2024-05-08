@@ -9,6 +9,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { useChatContext } from "stream-chat-expo";
 import { useAppSelector } from "@/redux/store";
 import { useNavigation } from "@react-navigation/native";
+import { capitalizeFirstLetter } from "@assets/Shared/utils";
 
 interface IAppointmentItemProps {
     appointment: IAppointment
@@ -50,7 +51,7 @@ export default function AppoinmentMessItem({ appointment }: IAppointmentItemProp
                         <Text style={styles.name}>{doctor?.name}</Text>
                     </View>
                     <View>
-                        <Text style={styles.textInfo}>{appointment.packageAppointment.name} - {(appointment.status == appointmentStatus.DOCTOR_CANCELLED || appointment.status == appointmentStatus.PATIENT_CANCELLED) ? "Cancelled" : appointment.status}</Text>
+                        <Text style={styles.textInfo}>{appointment.packageAppointment.name} - {capitalizeFirstLetter(appointment.status)}</Text>
                     </View>
                     <View>
                         <Text style={styles.textInfo}>{dateFormat} | {timeFormat}</Text>

@@ -1,12 +1,22 @@
+import { Colors } from "@assets/Shared";
+import { OutfitLight, OutfitSemiBold } from "@assets/Shared/typography";
+import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
-import { Button, Modal, Pressable, Text, View } from "react-native";
+import { Button, Dimensions, Modal, Pressable, Text, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 interface IModalProps {
     isVisible: boolean;
-    setIsVisible: any
+    setIsVisible: any;
+    title: string;
+    message: string;
+    isSuccess: boolean;
+    textButton: string;
 }
 
-export default function CustomModal({ isVisible, setIsVisible }: IModalProps) {
+export default function CustomModal({ isVisible, setIsVisible, title, message, isSuccess, textButton }: IModalProps) {
+
+    const navigation = useNavigation();
 
     return (
         <Modal animationType="fade" transparent visible={isVisible}>
@@ -23,7 +33,7 @@ export default function CustomModal({ isVisible, setIsVisible }: IModalProps) {
                     alignItems: 'center',
                     justifyContent: 'center',
                     zIndex: 100,
-                    backgroundColor: 'transparent',
+                    backgroundColor: 'rgba(52, 52, 52, 0.6)',
                 }}
             >
                 <Pressable
@@ -47,7 +57,7 @@ export default function CustomModal({ isVisible, setIsVisible }: IModalProps) {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        backgroundColor: 'black',
+                        backgroundColor: Colors.white,
                         width: '85%',
                         borderRadius: 24,
                         zIndex: 2,
@@ -67,20 +77,20 @@ export default function CustomModal({ isVisible, setIsVisible }: IModalProps) {
                                 alignSelf: 'stretch',
                                 textAlign: 'center',
                                 fontSize: 24,
-                                fontStyle: 'normal',
-                                fontWeight: 'bold',
+                                fontFamily: OutfitSemiBold,
+                                color: Colors.primary,
+                                marginTop: 20,
                             }}
                         >
-                            {'title'}
+                            {title}
                         </Text>
                         <View
                             style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
+                                marginLeft: 25,
+                                marginRight: 25,
                             }}
                         >
-                            <Text style={{ textAlign: 'center' }}>{'message'}</Text>
+                            <Text style={{ textAlign: 'center', fontFamily: OutfitLight, }}>{message}</Text>
                         </View>
                     </View>
                     <View
@@ -91,7 +101,33 @@ export default function CustomModal({ isVisible, setIsVisible }: IModalProps) {
                             justifyContent: 'center',
                         }}
                     >
-                        <Button title="alskhdlkas"></Button>
+                        <Pressable
+                            onPress={() => {
+                                setIsVisible(false);
+                                navigation.navigate('Appointment' as never)
+                            }}
+                            style={{
+                                padding: 15,
+                                backgroundColor: Colors.primary,
+                                borderRadius: 90,
+                                alignItems: 'center',
+                                marginTop: 10,
+                                marginBottom: 10,
+                                width: Dimensions.get('screen').width * 0.7
+                            }}>
+                            <Text style={{ color: Colors.white, fontFamily: OutfitSemiBold, fontSize: 16 }}>{textButton}</Text>
+                        </Pressable>
+                        <Pressable style={{
+                            padding: 15,
+                            backgroundColor: Colors.secondary,
+                            borderRadius: 90,
+                            alignItems: 'center',
+                            marginTop: 5,
+                            marginBottom: 10,
+                            width: Dimensions.get('screen').width * 0.7
+                        }}>
+                            <Text style={{ color: Colors.primary, fontFamily: OutfitSemiBold, fontSize: 16 }}>Cancel</Text>
+                        </Pressable>
                     </View>
                 </View>
             </View>
