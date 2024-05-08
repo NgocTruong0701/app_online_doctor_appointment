@@ -6,12 +6,13 @@ export default function ListChannel() {
     const navigation = useNavigation();
 
     const { user } = useAppSelector(state => state.user);
+    const id = user.doctor != null ? user.doctor.id : user.patient?.id;
 
     return (
         <ChannelList
             filters={{
                 members: {
-                    $in: [`${user.id}`]
+                    $in: [`${id}`]
                 }
             }}
             onSelect={(channel) => {

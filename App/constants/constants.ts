@@ -31,3 +31,15 @@ export const packageAppoinment = [
   { name: "Voice Call", price: 40 },
   { name: "Video Call", price: 60 },
 ]
+
+export const appointmentStatus = {
+  UPCOMING: 'upcoming',
+  COMPLETED: 'completed',
+  CANCELLED: 'cancelled'
+}
+
+export const packageIcons = [
+  { id: 1, name: 'Messaging', icon: 'chatbubble-ellipses' },
+  { id: 2, name: 'Voice Call', icon: 'call' },
+  { id: 3, name: 'Video Call', icon: 'videocam' },
+]

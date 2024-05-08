@@ -1,4 +1,5 @@
 import BookAppointment from "@/screens/BookAppointment";
+import ChannelScreen from "@/screens/ChannelScreen";
 import DoctorDetails from "@/screens/DoctorDetails";
 import DoctorOfSpecialityList from "@/screens/DoctorOfSpecialityList";
 import Home from "@/screens/Home";
@@ -17,6 +18,7 @@ export default function HomeNavigation() {
             <Stact.Screen name="BookAppointment" component={BookAppointment} />
             <Stact.Screen name="PatientDetails" component={PatientDetails} />
             <Stact.Screen name="ReviewSummary" component={ReviewSummary} />
+            <Stact.Screen name="ChannelScreen" component={ChannelScreen} options={({ route }) => ({ title: route.params.cid })} />
         </Stact.Navigator>
     )
 }

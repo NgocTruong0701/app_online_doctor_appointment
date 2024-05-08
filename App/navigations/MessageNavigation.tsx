@@ -1,9 +1,8 @@
 import ChannelScreen from "@/screens/ChannelScreen";
 import ListChannel from "@/screens/ListChannel";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Chat, OverlayProvider } from "stream-chat-expo";
-import ChatProvider from "@/providers/ChatProvider";
 import { OutfitBold } from "@assets/Shared/typography";
+import ChatProvider from "@/providers/ChatProvider";
 
 const Stact = createStackNavigator();
 

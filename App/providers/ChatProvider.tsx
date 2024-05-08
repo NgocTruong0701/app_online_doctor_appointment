@@ -11,6 +11,7 @@ export default function ChatProvider({ children }: PropsWithChildren) {
     const { user } = useAppSelector(state => state.user);
     const { doctor, patient } = user;
 
+    const id = doctor != null ? doctor.id : patient?.id;
     const name = doctor != null ? doctor.name : patient?.name;
     const image = doctor != null ? doctor.avatar : patient?.avatar;
 
@@ -21,11 +22,11 @@ export default function ChatProvider({ children }: PropsWithChildren) {
         const connect = async () => {
             await client.connectUser(
                 {
-                    id: `${user.id}`,
+                    id: `${id}`,
                     name: name,
                     image: image,
                 },
-                client.devToken(`${user.id}`)
+                client.devToken(`${id}`)
             );
             setIsReady(true);
         };

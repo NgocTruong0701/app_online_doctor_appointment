@@ -1,14 +1,18 @@
+import { appointmentStatus } from "@/constants/constants";
 import { Colors } from "@assets/Shared";
 import { OutfitRegular } from "@assets/Shared/typography";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-export default function AppointmentTab() {
-    const [activeIndex, setActiveIndex] = useState(0);
+interface IAppointmentTabProps {
+    setActiveTab: any;
+}
 
+export default function AppointmentTab({ setActiveTab }: IAppointmentTabProps) {
+    const [activeIndex, setActiveIndex] = useState(0);
     return (
-        <View style={{backgroundColor: Colors.white}}>
+        <View style={{ backgroundColor: Colors.white }}>
             <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', borderBottomColor: Colors.gray, borderBottomWidth: 0.5 }}>
                 <TouchableOpacity
                     style={[
@@ -17,7 +21,8 @@ export default function AppointmentTab() {
                             : styles.inActiveTab
                     ]}
                     onPress={() => {
-                        setActiveIndex(0)
+                        setActiveIndex(0);
+                        setActiveTab(appointmentStatus.UPCOMING)
                     }}
                 >
                     <Text style={[
@@ -33,7 +38,8 @@ export default function AppointmentTab() {
                             : styles.inActiveTab
                     ]}
                     onPress={() => {
-                        setActiveIndex(1)
+                        setActiveIndex(1);
+                        setActiveTab(appointmentStatus.COMPLETED)
                     }} >
                     <Text style={[
                         activeIndex == 1
@@ -48,7 +54,8 @@ export default function AppointmentTab() {
                             : styles.inActiveTab
                     ]}
                     onPress={() => {
-                        setActiveIndex(2)
+                        setActiveIndex(2);
+                        setActiveTab(appointmentStatus.CANCELLED)
                     }}>
                     <Text style={[
                         activeIndex == 2
