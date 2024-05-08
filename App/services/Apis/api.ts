@@ -11,5 +11,6 @@ export const API = {
     API_BASE_FEEDBACK: '/feedbacks',
     API_GET_COUNT_PATIENT_BY_DOCTOR: '/doctors/count-patients',
     API_GET_TIMEWORKING: '/doctors/get-timeworking',
-    API_BASE_PATIENT: '/patients'
+    API_BASE_PATIENT: '/patients',
+    API_GET_APPOINTMENT_BY_USERID: '/appointments/get-by-user',
 }

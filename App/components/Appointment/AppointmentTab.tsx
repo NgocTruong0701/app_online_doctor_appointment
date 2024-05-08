@@ -8,8 +8,8 @@ export default function AppointmentTab() {
     const [activeIndex, setActiveIndex] = useState(0);
 
     return (
-        <View>
-            <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
+        <View style={{backgroundColor: Colors.white}}>
+            <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', borderBottomColor: Colors.gray, borderBottomWidth: 0.5 }}>
                 <TouchableOpacity
                     style={[
                         activeIndex == 0
@@ -65,14 +65,14 @@ const styles = StyleSheet.create({
     activeText: {
         textAlign: 'center',
         fontFamily: OutfitRegular,
-        fontSize: 18,
+        fontSize: 16,
         color: Colors.primary
     },
     inActiveText: {
         textAlign: 'center',
         fontFamily: OutfitRegular,
-        fontSize: 18,
-        color: Colors.text_gray
+        fontSize: 16,
+        color: Colors.gray
     },
     activeTab: {
         borderBottomWidth: 2,
@@ -81,8 +81,6 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     inActiveTab: {
-        borderBottomWidth: 1,
-        borderBottomColor: Colors.text_gray,
         padding: 3,
         width: '100%',
     }
