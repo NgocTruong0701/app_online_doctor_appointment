@@ -37,7 +37,7 @@ export default function BookAppointment() {
             <View style={{ backgroundColor: Colors.white, borderTopLeftRadius: 20, borderTopRightRadius: 20, alignItems: 'center' }} >
                 <TouchableOpacity
                     onPress={() => {
-                        navigation.navigate('PatientDetails' as never)
+                        navigation.navigate('SelectPackage' as never)
                     }}
                     disabled={!time}
                     style={[{

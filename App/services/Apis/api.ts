@@ -13,4 +13,5 @@ export const API = {
     API_GET_TIMEWORKING: '/doctors/get-timeworking',
     API_BASE_PATIENT: '/patients',
     API_GET_APPOINTMENT_BY_USERID: '/appointments/get-by-user',
+    API_BASE_GET_PACKAGE_APPOINTMENT: '/package-appointments',
 }

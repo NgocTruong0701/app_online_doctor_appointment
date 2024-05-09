@@ -8,6 +8,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { Colors } from "@assets/Shared";
 import { OutfitRegular } from "@assets/Shared/typography";
 import { IDoctorResponse } from "@/redux/type";
+import { useAppSelector } from "@/redux/store";
 
 interface ISelectHourProps {
     doctor: IDoctorResponse,
@@ -17,6 +18,7 @@ interface ISelectHourProps {
 export default function SelectHour({ doctor, handleTimeChange }: ISelectHourProps) {
     const [hoursList, setHoursList] = useState([]);
     const [selectedHour, setSelectedHour] = useState(null);
+    const dateSelected = useAppSelector(state => state.appointmentDetails.date);
 
     useEffect(() => {
         axiosClient.get(`${API.API_GET_TIMEWORKING}/${doctor?.id}`)
@@ -26,20 +28,34 @@ export default function SelectHour({ doctor, handleTimeChange }: ISelectHourProp
                 // Tạo danh sách giờ
                 const startTime = moment(timeStart, 'HH:mm');
                 const endTime = moment(timeEnd, 'HH:mm');
-                const now = moment(); // Lấy thời gian hiện tại trực tiếp
+
+                // Lấy thời gian hiện tại và kiểm tra selected date
+                const now = moment();
+
+                const nowUTC = moment().utc().startOf('day');
+                const dateSelectedMomentUTC = moment(dateSelected, 'YYYY/MM/DD').utc().startOf('day');
+                const isToday = dateSelectedMomentUTC.isSame(nowUTC, 'day');
 
                 const hours = [];
+
                 while (startTime <= endTime) {
-                    if (startTime > now) {
+                    if (isToday) {
+                        // Nếu là hôm nay, chỉ add time ở tương lai
+                        if (startTime > now) {
+                            hours.push(startTime.format('hh:mm A'));
+                        }
+                    } else {
+                        // Nếu không phải hôm nay, add tất cả time
                         hours.push(startTime.format('hh:mm A'));
                     }
+
                     startTime.add(30, 'minutes');
                 }
 
                 setHoursList(hours);
             })
             .catch((error) => console.error(error));
-    }, [doctor?.id]);
+    }, [doctor?.id, dateSelected]);
 
     const handleHourPress = (hour) => {
         setSelectedHour(hour);

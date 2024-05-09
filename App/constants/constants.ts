@@ -43,3 +43,9 @@ export const packageIcons = [
   { id: 2, name: 'Voice Call', icon: 'call' },
   { id: 3, name: 'Video Call', icon: 'videocam' },
 ]
+
+export const durations = [
+  { id: 1, label: '30 mitutes', duration: 0.5, value: 1 },
+  { id: 2, label: '1 hour', duration: 1, value: 2 },
+  { id: 3, label: '2 hours', duration: 2, value: 3 },
+]
