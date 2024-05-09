@@ -26,10 +26,13 @@ export default function SelectHour({ doctor, handleTimeChange }: ISelectHourProp
                 // Tạo danh sách giờ
                 const startTime = moment(timeStart, 'HH:mm');
                 const endTime = moment(timeEnd, 'HH:mm');
-                const hours = [];
+                const now = moment(); // Lấy thời gian hiện tại trực tiếp
 
+                const hours = [];
                 while (startTime <= endTime) {
-                    hours.push(startTime.format('hh:mm A'));
+                    if (startTime > now) {
+                        hours.push(startTime.format('hh:mm A'));
+                    }
                     startTime.add(30, 'minutes');
                 }
 

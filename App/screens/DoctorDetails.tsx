@@ -14,7 +14,7 @@ import BookAppointmentButton from "@/components/DoctorDetails/BookAppointmentBut
 
 export default function DoctorDetails() {
     const param = useRoute().params;
-    const [doctor, setDoctor] = useState<IDoctorResponse>();
+    const [doctor, setDoctor] = useState<IDoctorResponse>(param.doctor);
     useEffect(() => {
         setDoctor(param.doctor);
     }, []);
