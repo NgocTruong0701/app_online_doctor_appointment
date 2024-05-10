@@ -4,7 +4,11 @@ import { Colors } from "@assets/Shared";
 import { useState } from "react";
 import { OutfitRegular } from "@assets/Shared/typography";
 
-export default function SearchBar({setSearchText}) {
+interface ISearchBar {
+    setSearchText: any;
+}
+
+export default function SearchBar({ setSearchText }: ISearchBar) {
 
     const [searchInput, setSearchInput] = useState('');
 

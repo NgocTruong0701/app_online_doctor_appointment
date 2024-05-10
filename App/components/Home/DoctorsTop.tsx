@@ -10,7 +10,7 @@ export default function DoctorsTop() {
     const [doctors, setDoctors] = useState<IDoctorResponse[]>([]);
 
     useEffect(() => {
-        axiosClient.get(API.API_GET_DOCTORS).then((response) => {
+        axiosClient.get(`${API.API_GET_DOCTORS}?limit=${API.LIMIT}`).then((response) => {
             setDoctors(response.data.data);
         }).catch((error) => {
             console.error(JSON.stringify(error, null, 2));
@@ -18,7 +18,7 @@ export default function DoctorsTop() {
     }, [])
     return doctors && (
         <View style={{ marginTop: 10 }}>
-            <SubHeading subHeadingTitle="Top Doctors" />
+            <SubHeading subHeadingTitle="Top Doctors" route='DoctorTopAll' />
 
             <FlatList
                 data={doctors}

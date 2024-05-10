@@ -33,7 +33,7 @@ export default function DoctorDetails() {
                         </View>
                         <View style={styles.divider} />
                         <View>
-                            <Text style={styles.textInfo}>{doctor?.specialization?.name}</Text>
+                            <Text style={styles.textInfo}>{doctor?.specialization_name}</Text>
                             <Text style={styles.textInfo2}>{doctor?.hospital}</Text>
                         </View>
                     </View>
@@ -45,11 +45,11 @@ export default function DoctorDetails() {
                 <SubTitle title={'Working Time'} content={doctor?.schedule} />
 
                 <View style={{ margin: 10 }}>
-                    <SubHeading subHeadingTitle="Reviews" />
+                    <SubHeading subHeadingTitle="Reviews" route={null} />
                 </View>
             </ScrollView>
             <View style={{ backgroundColor: Colors.white, borderTopLeftRadius: 20, borderTopRightRadius: 20, alignItems: 'center' }}>
-                <BookAppointmentButton doctor={doctor}/>
+                <BookAppointmentButton doctor={doctor} />
             </View>
         </>
     )

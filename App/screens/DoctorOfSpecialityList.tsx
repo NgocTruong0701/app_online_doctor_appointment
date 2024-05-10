@@ -9,7 +9,7 @@ export default function DoctorOfSpecialityList() {
         <View style={{ padding: 10, marginTop: 20 }}>
             <PageHeader title={params?.categoryName} />
 
-            <DoctorList />
+            <DoctorList categoryId={params?.categoryId} />
         </View>
     )
 }

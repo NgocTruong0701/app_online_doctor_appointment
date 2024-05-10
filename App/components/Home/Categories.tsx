@@ -40,7 +40,7 @@ export default function Categories() {
     }
     return (
         <View style={{ marginTop: 10 }}>
-            <SubHeading subHeadingTitle={"Doctor Speciality"} />
+            <SubHeading subHeadingTitle={"Doctor Speciality"} route={null} />
 
             <FlatList
                 data={[...categories, moreButton]}
@@ -52,9 +52,10 @@ export default function Categories() {
                 style={{ marginTop: 5 }}
                 renderItem={({ item, index }) => index < 8 && (
                     <TouchableOpacity
-                        onPress={() => navigation.navigate('DoctorOfSpecialityList', {
+                        onPress={() => item.id != 8 ? navigation.navigate('DoctorOfSpecialityList', {
                             categoryName: item.name,
-                        })}
+                            categoryId: item.id
+                        }) : console.log('More')}
                         style={{
                             alignItems: 'center', marginBottom: 10
                         }}>
