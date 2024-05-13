@@ -26,7 +26,7 @@ export default function AppoinmentMessItem({ appointment }: IAppointmentItemProp
 
     const onPress = async () => {
         const channel = client.channel('messaging', {
-            members: [`${patient?.id}`, `jlahey`]
+            members: [`${patient?.id}`, `${doctor?.id}`]
         });
         try {
             await channel.create();

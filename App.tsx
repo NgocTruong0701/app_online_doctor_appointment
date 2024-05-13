@@ -12,6 +12,9 @@ import LoadingIndicator from '@/components/Loading/LoadingIndicator';
 import { storage } from '@/localStorage';
 import { navigationRef } from '@/navigations/Root';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import LoginPassword from '@/screens/LoginPassword';
+import SignUp from '@/screens/SignUp';
+import VerifyEmail from '@/screens/VerifyEmail';
 
 
 const Stack = createStackNavigator();
@@ -38,6 +41,9 @@ export default function App() {
           <NavigationContainer ref={navigationRef}>
             <Stack.Navigator initialRouteName='TabNavigation'>
               <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
+              <Stack.Screen name='LoginPassword' component={LoginPassword} options={{ headerShown: false }} />
+              <Stack.Screen name='SignUp' component={SignUp} options={{ headerShown: false }} />
+              <Stack.Screen name='VerifyEmail' component={VerifyEmail} options={{ headerShown: false }} />
               <Stack.Screen
                 name="TabNavigation"
                 component={TabNavigation}

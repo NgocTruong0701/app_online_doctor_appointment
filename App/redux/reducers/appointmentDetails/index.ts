@@ -1,14 +1,19 @@
+import { IDuration, IPackageAppointment } from "@/screens/SelectPackage";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface IAppointmentDetails {
     date: string;
     time: string;
+    duration: IDuration | null;
+    packageAppointment: IPackageAppointment | null;
     problem: string;
 }
 const initialState: IAppointmentDetails = {
-   date: '',
-   time: '',
-   problem: '',
+    date: '',
+    time: '',
+    duration: null,
+    packageAppointment: null,
+    problem: '',
 };
 
 const appointmentDetails = createSlice({
@@ -26,6 +31,14 @@ const appointmentDetails = createSlice({
         setProblem(state, action) {
             const problem = action.payload as string;
             state.problem = problem;
+        },
+        setDuration(state, action) {
+            const duration = action.payload as IDuration;
+            state.duration = duration;
+        },
+        setPackage(state, action) {
+            const packageAppointment = action.payload as IPackageAppointment;
+            state.packageAppointment = packageAppointment;
         }
     }
 });

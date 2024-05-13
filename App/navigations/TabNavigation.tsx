@@ -1,47 +1,103 @@
-import Appointment from "@/screens/Appointment"
-import Home from "@/screens/Home"
-import Profile from "@/screens/Profile"
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
-import { Entypo } from '@expo/vector-icons';
-import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
+import Appointment from "@/screens/Appointment";
+import Home from "@/screens/Home";
+import Profile from "@/screens/Profile";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Entypo } from "@expo/vector-icons";
+import { MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
 import HomeNavigation from "./HomeNavigation";
 import MessageNavigation from "./MessageNavigation";
-import { Octicons } from '@expo/vector-icons';
+import { Octicons } from "@expo/vector-icons";
+import { useAppSelector } from "@/redux/store";
+import { roles } from "@/constants/constants";
+import ChatProvider from "@/providers/ChatProvider";
 
-const Tab = createBottomTabNavigator()
+const Tab = createBottomTabNavigator();
+
 export default function TabNavigation() {
-    return (
-        <Tab.Navigator screenOptions={{
-            headerShown: false,
-        }}>
-            <Tab.Screen name="Home" component={HomeNavigation}
+    const { user } = useAppSelector((state) => state.user);
+    let screens = [];
+
+    if (user.role === roles[0].name) {
+        screens = [
+            <Tab.Screen
+                key="Home"
+                name="Home"
+                component={HomeNavigation}
                 options={{
                     tabBarIcon: ({ color, size }) => (
                         <Entypo name="home" size={size} color={color} />
-                    )
+                    ),
                 }}
-            />
-            <Tab.Screen name="Appointment" component={Appointment}
+            />,
+            <Tab.Screen
+                key="Appointment"
+                name="Appointment"
+                component={Appointment}
                 options={{
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons name="calendar-clock" size={size} color={color} />
-                    )
+                    ),
                 }}
-            />
-            <Tab.Screen name="History" component={MessageNavigation}
+            />,
+            <Tab.Screen
+                key="History"
+                name="History"
+                component={MessageNavigation}
                 options={{
                     tabBarIcon: ({ color, size }) => (
                         <Octicons name="checklist" size={size} color={color} />
-                    )
+                    ),
                 }}
-            />
-            <Tab.Screen name="Profile" component={Profile}
+            />,
+            <Tab.Screen
+                key="Profile"
+                name="Profile"
+                component={Profile}
                 options={{
                     tabBarIcon: ({ color, size }) => (
                         <FontAwesome5 name="user" size={size} color={color} />
-                    )
+                    ),
                 }}
-            />
+            />,
+        ];
+    } else {
+        screens = [
+            <Tab.Screen
+                key="Appointment"
+                name="Appointment"
+                component={Appointment}
+                options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialCommunityIcons name="calendar-clock" size={size} color={color} />
+                    ),
+                }}
+            />,
+            <Tab.Screen
+                key="History"
+                name="History"
+                component={MessageNavigation}
+                options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <Octicons name="checklist" size={size} color={color} />
+                    ),
+                }}
+            />,
+            <Tab.Screen
+                key="Profile"
+                name="Profile"
+                component={Profile}
+                options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <FontAwesome5 name="user" size={size} color={color} />
+                    ),
+                }}
+            />,
+        ];
+    }
+
+    return (
+        <Tab.Navigator screenOptions={{ headerShown: false }}>
+            {screens}
         </Tab.Navigator>
-    )
+    );
 }

@@ -4,29 +4,25 @@ export interface ITimeStamp {
     updated_at: string
 }
 export interface IDoctorResponse extends ITimeStamp {
-    specialization_id?: number;
-    specialization_name?: string;
-    specialization_description?: string;
-    specialization_icon?: string;
-    id?: number;
-    name?: string;
-    date_of_birth?: Date;
-    gender?: number;
-    phone_number?: string;
-    avatar?: string;
-    address?: string;
-    account?: number;
-    specializationId?: number;
-    hospital?: null;
-    years_experience?: null;
-    description?: string | undefined;
-    start_day_of_week?: string;
-    time_start?: string;
-    end_day_of_week?: string;
-    time_end?: string;
-    averageRating?: null;
-    feedbackCount?: string;
-    schedule?: string;
+    specialization_id: number
+    specialization_name: string
+    specialization_description: string
+    specialization_icon: string
+    id: number
+    name: string
+    date_of_birth: string
+    gender: number
+    phone_number: string
+    avatar: string
+    address: string
+    account: number
+    specializationId: number
+    hospital: string
+    years_experience: number
+    description: string
+    averageRating: string
+    feedbackCount: string
+    schedule: string
 }
 
 export interface ISpecialization extends ITimeStamp {

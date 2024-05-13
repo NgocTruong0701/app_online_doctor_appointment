@@ -1,9 +1,6 @@
 import { Colors } from "@assets/Shared";
 import { OutfitLight, OutfitSemiBold } from "@assets/Shared/typography";
-import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
-import { Button, Dimensions, Modal, Pressable, Text, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { Dimensions, Modal, Pressable, Text, View } from "react-native";
 
 interface IModalProps {
     isVisible: boolean;
@@ -12,12 +9,10 @@ interface IModalProps {
     message: string;
     isSuccess: boolean;
     textButton: string;
+    onPress: () => void;
 }
 
-export default function CustomModal({ isVisible, setIsVisible, title, message, isSuccess, textButton }: IModalProps) {
-
-    const navigation = useNavigation();
-
+export default function CustomModal({ isVisible, setIsVisible, title, message, isSuccess, textButton, onPress }: IModalProps) {
     return (
         <Modal animationType="fade" transparent visible={isVisible}>
             <View
@@ -102,10 +97,7 @@ export default function CustomModal({ isVisible, setIsVisible, title, message, i
                         }}
                     >
                         <Pressable
-                            onPress={() => {
-                                setIsVisible(false);
-                                navigation.navigate('Appointment' as never)
-                            }}
+                            onPress={onPress}
                             style={{
                                 padding: 15,
                                 backgroundColor: Colors.primary,
@@ -117,15 +109,19 @@ export default function CustomModal({ isVisible, setIsVisible, title, message, i
                             }}>
                             <Text style={{ color: Colors.white, fontFamily: OutfitSemiBold, fontSize: 16 }}>{textButton}</Text>
                         </Pressable>
-                        <Pressable style={{
-                            padding: 15,
-                            backgroundColor: Colors.secondary,
-                            borderRadius: 90,
-                            alignItems: 'center',
-                            marginTop: 5,
-                            marginBottom: 10,
-                            width: Dimensions.get('screen').width * 0.7
-                        }}>
+                        <Pressable
+                            onPress={() => {
+                                setIsVisible(false);
+                            }}
+                            style={{
+                                padding: 15,
+                                backgroundColor: Colors.secondary,
+                                borderRadius: 90,
+                                alignItems: 'center',
+                                marginTop: 5,
+                                marginBottom: 10,
+                                width: Dimensions.get('screen').width * 0.7
+                            }}>
                             <Text style={{ color: Colors.primary, fontFamily: OutfitSemiBold, fontSize: 16 }}>Cancel</Text>
                         </Pressable>
                     </View>

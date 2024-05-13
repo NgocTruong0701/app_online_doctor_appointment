@@ -1,3 +1,4 @@
+import moment from "moment";
 import { Dimensions } from "react-native";
 export const WINDOW_WIDTH = Dimensions.get("window").width;
 export const WINDOW_HEIGHT = Dimensions.get("window").height;
@@ -86,7 +87,7 @@ export function calculateDateOfBirth(age: number) {
   // Create an estimated date of birth
   const estimatedDateOfBirth = new Date(estimatedBirthYear, today.getMonth(), today.getDate());
 
-  return estimatedDateOfBirth;
+  return moment(estimatedDateOfBirth).format('YYYY-MM-DD');
 }
 
 export function capitalizeFirstLetter(str: string) {

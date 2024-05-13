@@ -19,17 +19,9 @@ interface IActionButtonList {
 }
 
 export default function ActionButton({ doctor }: IDoctorItemProps) {
-    const [averageRating, setAverageRating] = useState(0);
-    const [reviews, setReviews] = useState(0);
     const [countPatient, setCountPatient] = useState(0);
 
     useEffect(() => {
-        axiosClient.get(`${API.API_BASE_FEEDBACK}/${doctor?.id}`).then((response) => {
-            const data = response.data.data as IRatingResponse;
-            setAverageRating(data.averageRating);
-            setReviews(data.feedbackCount);
-        });
-
         axiosClient.get(`${API.API_GET_COUNT_PATIENT_BY_DOCTOR}/${doctor?.id}`).then((response) => {
             setCountPatient(response.data.data.countPatient);
         })
@@ -55,16 +47,15 @@ export default function ActionButton({ doctor }: IDoctorItemProps) {
             name: 'rating',
             icon: 'star-half-alt',
             type: 'fontawesome6',
-            value: averageRating,
+            value: doctor?.averageRating,
         },
         {
             id: 4,
             name: 'reviews',
             icon: 'chatbubble-ellipses',
             type: 'ionicons',
-            value: reviews,
+            value: doctor?.feedbackCount,
         }
-
     ]
 
     return (

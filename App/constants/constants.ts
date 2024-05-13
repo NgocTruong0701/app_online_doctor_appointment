@@ -45,7 +45,14 @@ export const packageIcons = [
 ]
 
 export const durations = [
-  { id: 1, label: '30 mitutes', duration: 0.5, value: 1 },
+  { id: 1, label: '30 minutes', duration: 0.5, value: 1 },
   { id: 2, label: '1 hour', duration: 1, value: 2 },
   { id: 3, label: '2 hours', duration: 2, value: 3 },
 ]
+
+export const roles = [
+  { id: 1, name: 'patient' },
+  { id: 2, name: 'doctor' },
+];
+
+export const defaultAvatar = 'https://doctor-appointment-bucket.s3.ap-southeast-1.amazonaws.com/avatar/avatar-default-svgrepo-com.svg';

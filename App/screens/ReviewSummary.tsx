@@ -14,7 +14,7 @@ import { actions as appActions } from "@/redux/reducers/appState";
 
 export default function ReviewSummary() {
     const { doctorSelected } = useAppSelector(state => state.doctorSelected);
-    const { date, time, problem } = useAppSelector(state => state.appointmentDetails);
+    const { date, time, problem, duration, packageAppointment } = useAppSelector(state => state.appointmentDetails);
     const dispatch = useAppDispatch();
 
     const [isVisible, setIsVisible] = useState(false);
@@ -22,11 +22,20 @@ export default function ReviewSummary() {
     const [message, setMessage] = useState('');
     const [title, setTitle] = useState('');
     const [textButton, setTextButton] = useState('');
+    const [routeName, setRouteName] = useState('');
+    let total = duration?.value! * packageAppointment?.price!;
 
     const timeFormat = moment(time, 'HH:mm');
     const dateObj = moment(date, "YYYY/MM/DD").toDate();
     const dateFormat = moment(dateObj).format("MMM DD, YYYY");
     const datetime = moment(dateObj).format('YYYY-MM-DD') + ' ' + timeFormat.format('HH:mm:ss');
+
+    const navigation = useNavigation();
+
+    const haindlOpenModal = () => {
+        setIsVisible(false);
+        navigation.navigate(routeName as never)
+    }
 
     return (
         <>
@@ -44,7 +53,7 @@ export default function ReviewSummary() {
                         </View>
                         <View style={styles.divider} />
                         <View>
-                            <Text style={styles.textInfo}>{doctorSelected?.specialization?.name}</Text>
+                            <Text style={styles.textInfo}>{doctorSelected?.specialization_name}</Text>
                             <Text style={styles.textInfo2}>{doctorSelected?.hospital}</Text>
                         </View>
                     </View>
@@ -57,15 +66,30 @@ export default function ReviewSummary() {
                     </View>
                     <View style={styles.cartInfoRow}>
                         <Text style={styles.cartInfoText1}>Package</Text>
-                        <Text style={styles.cartInfoText2}>{packageAppoinment[0].name}</Text>
+                        <Text style={styles.cartInfoText2}>{packageAppointment?.name}</Text>
                     </View>
                     <View style={styles.cartInfoRow}>
                         <Text style={styles.cartInfoText1}>Duration</Text>
-                        <Text style={styles.cartInfoText2}>30 mimutes</Text>
+                        <Text style={styles.cartInfoText2}>{duration?.label}</Text>
                     </View>
                 </View>
 
-                <CustomModal isVisible={isVisible} setIsVisible={setIsVisible} isSuccess={isSuccess} message={message} title={title} textButton={textButton} />
+                <View style={styles.cardInfo}>
+                    <View style={styles.cartInfoRow}>
+                        <Text style={styles.cartInfoText1}>Amount</Text>
+                        <Text style={styles.cartInfoText2}>${packageAppointment?.price}</Text>
+                    </View>
+                    <View style={styles.cartInfoRow}>
+                        <Text style={styles.cartInfoText1}>Duration ({duration?.label})</Text>
+                        <Text style={styles.cartInfoText2}>{duration?.value} x ${packageAppointment?.price}</Text>
+                    </View>
+                    <View style={styles.cartInfoRow}>
+                        <Text style={styles.cartInfoText1}>Total</Text>
+                        <Text style={styles.cartInfoText2}>${total}</Text>
+                    </View>
+                </View>
+
+                <CustomModal isVisible={isVisible} setIsVisible={setIsVisible} isSuccess={isSuccess} message={message} title={title} textButton={textButton} onPress={haindlOpenModal} />
             </ScrollView>
             <View style={{ backgroundColor: Colors.white, borderTopLeftRadius: 20, borderTopRightRadius: 20, alignItems: 'center' }} >
                 <TouchableOpacity
@@ -75,15 +99,22 @@ export default function ReviewSummary() {
                             date: datetime,
                             description: problem,
                             doctorId: doctorSelected.id,
-                            packageAppointmentId: 1,
-                            duration: 1
+                            packageAppointmentId: packageAppointment?.id,
+                            duration: duration?.duration
                         }).then(response => {
-                            setIsVisible(true);
                             setIsSuccess(true);
                             setMessage('Appointment successfully booked. You will recive a notification and the doctor you selected will contact you');
                             setTitle('Congratulations!');
-                            setTextButton('View Appointment')
+                            setTextButton('View Appointment');
+                            setRouteName('Appointment');
+                            setIsVisible(true);
                         }).catch(error => {
+                            setIsSuccess(false);
+                            setMessage('Appointment failed. Please check your internet connection then try again.');
+                            setTitle('Oops, Failed!');
+                            setTextButton('Try Again');
+                            setRouteName('ReviewSummary');
+                            setIsVisible(true);
                             console.error(error.message);
                         }).finally(() => {
                             dispatch(appActions.hideLoading());
@@ -169,7 +200,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     cartInfoText1: {
-        fontFamily: OutfitLight,
+        fontFamily: OutfitRegular.fontFamilytRegular,
         color: Colors.text_gray
     },
     cartInfoText2: {

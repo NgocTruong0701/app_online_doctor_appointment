@@ -31,6 +31,9 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         getUser(state) { },
+        clearUser(state) {
+            state.user = initialState.user;
+        }
     },
     extraReducers(builder) {
         builder.addCase(

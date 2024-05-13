@@ -15,18 +15,8 @@ export interface IRatingResponse {
 }
 
 export default function DoctorCard({ doctor }: IDoctorItemProps) {
-    const [averageRating, setAverageRating] = useState(0);
-    const [reviews, setReviews] = useState(0);
     const { user } = useAppSelector(state => state.user);
     const [isFavorite, setIsFavorite] = useState(false);
-
-    useEffect(() => {
-        axiosClient.get(`${API.API_BASE_FEEDBACK}/${doctor?.id}`).then((response) => {
-            const data = response.data.data as IRatingResponse;
-            setAverageRating(data.averageRating);
-            setReviews(data.feedbackCount);
-        });
-    }, [doctor?.id]);
 
     const handleFavorite = (doctorId: number | undefined) => {
         if (doctor != undefined) {
@@ -58,7 +48,7 @@ export default function DoctorCard({ doctor }: IDoctorItemProps) {
                     <Text style={styles.textInfo}>{doctor?.specialization_name} | {doctor?.hospital}</Text>
                     <View style={styles.rateInfo}>
                         <FontAwesome name="star-half-full" size={20} color={Colors.blue} />
-                        <Text style={styles.textInfo}>{averageRating}   ({reviews} reviews)</Text>
+                        <Text style={styles.textInfo}>{doctor?.averageRating != "NaN" ? doctor?.averageRating : 0}   ({doctor?.feedbackCount ? doctor?.feedbackCount : 0} reviews)</Text>
                     </View>
                 </View>
             </View>

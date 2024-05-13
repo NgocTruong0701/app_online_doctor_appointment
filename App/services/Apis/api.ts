@@ -18,5 +18,9 @@ export const API = {
     API_GET_DOCTORS_FAVORITE: '/patients/get-doctor-favorite',
     API_GET_DOCTORS_BY_SPECIALITY: '/doctors/speciality',
     API_GET_DOCTORS_TOP: '/doctor/get-doctor-favorite',
-    API_FAVORITE_DOCTOR: '/patients/favorite-doctor'
+    API_FAVORITE_DOCTOR: '/patients/favorite-doctor',
+    API_LOGIN_PASSWORD: '/auth/login',
+    API_SINGUP_PASSWORD: '/auth/signup',
+    API_VERIFY_CODE: '/auth/verify-email',
+    API_GET_TOKEN_STREAMCHAT: '/users/token-stream-chat',
 }
