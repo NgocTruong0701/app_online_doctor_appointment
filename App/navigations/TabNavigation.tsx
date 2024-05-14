@@ -1,5 +1,4 @@
 import Appointment from "@/screens/Appointment";
-import Home from "@/screens/Home";
 import Profile from "@/screens/Profile";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Entypo } from "@expo/vector-icons";
@@ -10,6 +9,7 @@ import { Octicons } from "@expo/vector-icons";
 import { useAppSelector } from "@/redux/store";
 import { roles } from "@/constants/constants";
 import ChatProvider from "@/providers/ChatProvider";
+import AppointmentNavigation from "./AppointmentNavigate";
 
 const Tab = createBottomTabNavigator();
 
@@ -32,7 +32,7 @@ export default function TabNavigation() {
             <Tab.Screen
                 key="Appointment"
                 name="Appointment"
-                component={Appointment}
+                component={AppointmentNavigation}
                 options={{
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons name="calendar-clock" size={size} color={color} />
@@ -96,8 +96,10 @@ export default function TabNavigation() {
     }
 
     return (
-        <Tab.Navigator screenOptions={{ headerShown: false }}>
-            {screens}
-        </Tab.Navigator>
+        <ChatProvider>
+            <Tab.Navigator screenOptions={{ headerShown: false }}>
+                {screens}
+            </Tab.Navigator>
+        </ChatProvider>
     );
 }

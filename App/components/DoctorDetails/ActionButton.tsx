@@ -47,7 +47,7 @@ export default function ActionButton({ doctor }: IDoctorItemProps) {
             name: 'rating',
             icon: 'star-half-alt',
             type: 'fontawesome6',
-            value: doctor?.averageRating,
+            value: doctor?.averageRating != "NaN" ? doctor?.averageRating : 0,
         },
         {
             id: 4,

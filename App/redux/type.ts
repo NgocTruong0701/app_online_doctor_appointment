@@ -1,4 +1,5 @@
 export const GET_USER = "GET_USER";
+
 export interface ITimeStamp {
     created_at: string,
     updated_at: string

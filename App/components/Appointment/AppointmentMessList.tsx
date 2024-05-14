@@ -1,5 +1,5 @@
 import { IAppointment } from "@/screens/Appointment";
-import { FlatList, Text, View } from "react-native";
+import { FlatList, ScrollView, Text, View } from "react-native";
 import AppoinmentMessItem from "./AppoinmentMessItem";
 
 interface IAppointmentMessListProp {
@@ -9,13 +9,12 @@ interface IAppointmentMessListProp {
 export default function AppointmentMessList({ appointment }: IAppointmentMessListProp) {
 
     return (
-        <View>
-            <FlatList
-                data={appointment}
-                renderItem={({ item }) => (
-                    <AppoinmentMessItem appointment={item} />
-                )}
-            />
-        </View>
+        <FlatList
+            data={appointment}
+            scrollEnabled={true}
+            renderItem={({ item }) => (
+                <AppoinmentMessItem appointment={item} />
+            )}
+        />
     )
 }

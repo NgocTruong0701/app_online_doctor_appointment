@@ -20,7 +20,7 @@ const ServiceList = ({ services, selectedService, setSelectedService, handlSetPa
                 // Note the parentheses for implicit return
                 id: item.id.toString(), // Ensure id is a string
                 description: (
-                    <Pressable onPress={() => handlSetPackageAppointment(item)}>
+                    <Pressable onPress={() => handlSetPackageAppointment(item, item.id.toString())}>
                         <View style={styles.serviceItem}>
                             <View style={{
                                 backgroundColor: Colors.secondary,

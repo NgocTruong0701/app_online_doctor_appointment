@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     cartInfoText1: {
-        fontFamily: OutfitRegular.fontFamilytRegular,
+        fontFamily: OutfitRegular,
         color: Colors.text_gray
     },
     cartInfoText2: {

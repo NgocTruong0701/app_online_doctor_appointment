@@ -50,8 +50,10 @@ axiosClient.interceptors.response.use(
             storage.clearAll();
             navigate('Login');
         }
-        storage.clearAll();
-        navigate('Login');
+        else if (error?.response?.status === ResponseStatus.INTERNAL_SERVER_ERROR) {
+            storage.clearAll();
+            navigate('Login');
+        }
         return Promise.reject(error);
     },
 );

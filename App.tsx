@@ -39,7 +39,7 @@ export default function App() {
           <LoadingIndicator />
           <StatusBar hidden />
           <NavigationContainer ref={navigationRef}>
-            <Stack.Navigator initialRouteName='TabNavigation'>
+            <Stack.Navigator initialRouteName='Login'>
               <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
               <Stack.Screen name='LoginPassword' component={LoginPassword} options={{ headerShown: false }} />
               <Stack.Screen name='SignUp' component={SignUp} options={{ headerShown: false }} />

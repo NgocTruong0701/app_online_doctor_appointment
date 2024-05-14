@@ -13,6 +13,7 @@ export const ResponseStatus = {
   UNAUTHORIZED: 401,
   TOO_MANY_REQUEST: 429,
   MAINTENANCE_MODE: 503,
+  INTERNAL_SERVER_ERROR: 500,
 };
 export const genderOption = [
   { label: "Choose gender", value: 0 },

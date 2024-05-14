@@ -23,4 +23,6 @@ export const API = {
     API_SINGUP_PASSWORD: '/auth/signup',
     API_VERIFY_CODE: '/auth/verify-email',
     API_GET_TOKEN_STREAMCHAT: '/users/token-stream-chat',
+    API_CANCEL_APPOINTMENT: '/appointments/cancel',
+    API_COMPLETE_APPOINTMENT: '/appointments/complete',
 }

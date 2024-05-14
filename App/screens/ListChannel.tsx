@@ -1,5 +1,5 @@
 import { useAppSelector } from '@/redux/store';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { ChannelList } from 'stream-chat-expo';
 
 export default function ListChannel() {
@@ -17,7 +17,8 @@ export default function ListChannel() {
             }}
             onSelect={(channel) => {
                 navigation.navigate('ChannelScreen' as never, {
-                    cid: channel.cid
+                    cid: channel.cid,
+                    appointmentid: null,
                 })
             }} />
     )
