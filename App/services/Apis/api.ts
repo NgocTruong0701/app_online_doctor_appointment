@@ -25,4 +25,5 @@ export const API = {
     API_GET_TOKEN_STREAMCHAT: '/users/token-stream-chat',
     API_CANCEL_APPOINTMENT: '/appointments/cancel',
     API_COMPLETE_APPOINTMENT: '/appointments/complete',
+    API_BASE_DOCTOR: '/doctors'
 }

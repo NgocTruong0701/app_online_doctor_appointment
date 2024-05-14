@@ -7876,6 +7876,13 @@ react-native-mmkv@^2.12.2:
   resolved "https://registry.npmjs.org/react-native-mmkv/-/react-native-mmkv-2.12.2.tgz"
   integrity sha512-6058Aq0p57chPrUutLGe9fYoiDVDNMU2PKV+lLFUJ3GhoHvUrLdsS1PDSCLr00yqzL4WJQ7TTzH+V8cpyrNcfg==
 
+react-native-modal-datetime-picker@^17.1.0:
+  version "17.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-modal-datetime-picker/-/react-native-modal-datetime-picker-17.1.0.tgz#74291bf92b830be285752f437841f52885c90e0b"
+  integrity sha512-jfTwfaCLtBffYbQ+pOGFLM+J5HmUh3vb9rT0JrrQPjxzecdc8pNYreB1c96+mVuq8bDCvaCdIeuEsslTqLJL0Q==
+  dependencies:
+    prop-types "^15.7.2"
+
 react-native-modern-datepicker@^1.0.0-beta.91:
   version "1.0.0-beta.91"
   resolved "https://registry.yarnpkg.com/react-native-modern-datepicker/-/react-native-modern-datepicker-1.0.0-beta.91.tgz#11e65f9685743bda4e5af64388f39059adcaf110"

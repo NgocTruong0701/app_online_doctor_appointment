@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { PermissionsAndroid, Platform, SafeAreaView, StyleSheet } from 'react-native';
 import Login from './App/screens/Login';
 import { Colors } from '@assets/Shared';
 import { NavigationContainer } from '@react-navigation/native';
@@ -15,6 +15,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import LoginPassword from '@/screens/LoginPassword';
 import SignUp from '@/screens/SignUp';
 import VerifyEmail from '@/screens/VerifyEmail';
+import { useEffect } from 'react';
 
 
 const Stack = createStackNavigator();

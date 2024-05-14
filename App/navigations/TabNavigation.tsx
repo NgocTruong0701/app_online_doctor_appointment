@@ -10,6 +10,7 @@ import { useAppSelector } from "@/redux/store";
 import { roles } from "@/constants/constants";
 import ChatProvider from "@/providers/ChatProvider";
 import AppointmentNavigation from "./AppointmentNavigate";
+import ProfileNavigation from "./ProfileNavigation";
 
 const Tab = createBottomTabNavigator();
 
@@ -52,7 +53,7 @@ export default function TabNavigation() {
             <Tab.Screen
                 key="Profile"
                 name="Profile"
-                component={Profile}
+                component={ProfileNavigation}
                 options={{
                     tabBarIcon: ({ color, size }) => (
                         <FontAwesome5 name="user" size={size} color={color} />
