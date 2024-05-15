@@ -12,6 +12,7 @@ import { OutfitBold, OutfitRegular, OutfitSemiBold } from "@assets/Shared/typogr
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCallback, useEffect, useState } from "react";
 import { ActivityIndicator, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export interface IAppointment {
     id: number,
@@ -56,6 +57,7 @@ export default function Appointment() {
 
     return (
         <View>
+            <SafeAreaView style={{paddingBottom: 177}}>
             <Text style={{ fontFamily: OutfitBold, fontSize: 20, backgroundColor: Colors.white, padding: 15 }}>My Appointment</Text>
             <AppointmentTab setActiveTab={(value: string) => { setActiveTab(value); }} />
 
@@ -65,6 +67,7 @@ export default function Appointment() {
                 <Text style={{ textAlign: 'center', fontFamily: OutfitSemiBold, fontSize: 20 }}>You don't have an appointment yet</Text>
                 <Text style={{ textAlign: 'center', fontFamily: OutfitRegular, fontSize: 16, color: Colors.text_gray, marginTop: 10 }}>You don't have a doctor's appointment scheduled at the moment</Text>
             </View>}
+            </SafeAreaView>
         </View>
     )
 }

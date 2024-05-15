@@ -10,6 +10,7 @@ import { Colors } from "@assets/Shared";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import axiosClient from "@/services/Apis/axiosClient";
 import { API } from "@/services/Apis/api";
+import CallScreen from "@/screens/CallScreen";
 
 const Stact = createStackNavigator();
 
@@ -47,6 +48,7 @@ export default function MessageNavigation() {
                 fontFamily: OutfitBold
             }, headerLeft: () => <></>,
         }}>
+            <Stact.Screen name="CallScreen" component={CallScreen} />
             <Stact.Screen name="ListChannel" component={ListChannel} />
             <Stact.Screen name="ChannelScreen" component={ChannelScreen} options={({ route }) => ({
                 headerRight: () => (

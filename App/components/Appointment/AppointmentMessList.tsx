@@ -12,6 +12,7 @@ export default function AppointmentMessList({ appointment }: IAppointmentMessLis
         <FlatList
             data={appointment}
             scrollEnabled={true}
+            keyExtractor={(s) => s.id.toString()}
             renderItem={({ item }) => (
                 <AppoinmentMessItem appointment={item} />
             )}

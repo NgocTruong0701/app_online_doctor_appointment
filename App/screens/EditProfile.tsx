@@ -23,7 +23,7 @@ export default function EditProfile() {
     const [name, setName] = useState(account?.name);
 
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-    const [birthDate, setBirthDate] = useState(moment(account?.date_of_birth).format('DD/MM/YYYY'));
+    const [birthDate, setBirthDate] = useState(moment(account?.date_of_birth, 'YYYY-MM-DD').format('DD/MM/YYYY'));
 
     const [address, setAddress] = useState(account?.address);
     const [phoneNumber, setPhoneNumber] = useState(account?.phone_number ? account.phone_number : '+84');
@@ -59,7 +59,7 @@ export default function EditProfile() {
         dispatch(appStateAction.showLoading());
         axiosClient.patch(`${API_UPDATE}/${account?.id}`, {
             name: name,
-            date_of_birth: moment(birthDate, 'YYYY-MM-DD').format('YYYY-MM-DD'),
+            date_of_birth: moment(birthDate, 'DD/MM/YYYY').format('YYYY-MM-DD'),
             gender: gender,
             phone_number: phoneNumber,
             address: address

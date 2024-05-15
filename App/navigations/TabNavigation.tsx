@@ -11,6 +11,7 @@ import { roles } from "@/constants/constants";
 import ChatProvider from "@/providers/ChatProvider";
 import AppointmentNavigation from "./AppointmentNavigate";
 import ProfileNavigation from "./ProfileNavigation";
+import VideoProvider from "@/providers/VideoProvider";
 
 const Tab = createBottomTabNavigator();
 
@@ -98,9 +99,11 @@ export default function TabNavigation() {
 
     return (
         <ChatProvider>
-            <Tab.Navigator screenOptions={{ headerShown: false }}>
-                {screens}
-            </Tab.Navigator>
+            <VideoProvider>
+                <Tab.Navigator screenOptions={{ headerShown: false }}>
+                    {screens}
+                </Tab.Navigator>
+            </VideoProvider>
         </ChatProvider>
     );
 }
