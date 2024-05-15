@@ -1,21 +1,21 @@
 import { Colors } from "@assets/Shared";
-import { PropsWithChildren, useState } from "react";
-import { ActivityIndicator, View } from "react-native";
 import {
-    CallContent,
-    StreamCall,
-    StreamVideo,
     StreamVideoClient,
+    StreamVideo,
     User,
 } from '@stream-io/video-react-native-sdk';
+import { PropsWithChildren, useEffect, useState } from 'react';
+import { ActivityIndicator, View } from 'react-native';
 import { useAppSelector } from "@/redux/store";
 import axiosClient from "@/services/Apis/axiosClient";
 import { API } from "@/services/Apis/api";
 
-const apiKey = '6dqf5bm87p98';
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQ1LCJlbWFpbCI6Im5nb2N0cnVvbmdjdkBnbWFpbC5jb20iLCJyb2xlIjoicGF0aWVudCIsImlhdCI6MTcxNTc3MTEzOSwiZXhwIjoxNzE1ODU3NTM5fQ.-GUchzM1DT8o8BJbVuEyBMVZOSZMr68RX_1PLnATCRc';
+const apiKey = `${process.env.EXPO_PUBLIC_STREAM_API_KEY}`;
+
 export default function VideoProvider({ children }: PropsWithChildren) {
-    const [videoClient, setVideoClient] = useState(null);
+    const [videoClient, setVideoClient] = useState<StreamVideoClient | null>(
+        null
+    );
     const { user } = useAppSelector(state => state.user);
     const { doctor, patient } = user;
 
@@ -27,25 +27,27 @@ export default function VideoProvider({ children }: PropsWithChildren) {
         if (!user) {
             return;
         }
-
-        const connect = async () => {
-            const { data } = await axiosClient.get(API.API_GET_TOKEN_STREAMCHAT);
-            await client.connectUser(
-                {
-                    id: `${id}`,
-                    name: name,
-                    image: image,
-                },
-                data.data
-            );
-            setVideoClient(true);
-        };
-
         const initVideoClient = async () => {
-            const client = new StreamVideoClient({ apiKey, user, token });
+            const { data } = await axiosClient.get(API.API_GET_TOKEN_STREAMCHAT);
+            const tokenProvider = data.data;
+            const user: User = {
+                id: `${id}`,
+                name: name,
+                image: image,
+            };
+            const client = new StreamVideoClient({ apiKey, user, tokenProvider });
+
+            setVideoClient(client);
         }
 
-    }, []);
+        initVideoClient();
+
+        return () => {
+            if (videoClient) {
+                videoClient.disconnectUser();
+            }
+        };
+    }, [user.id]);
 
     if (!videoClient) {
         return <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -53,9 +55,5 @@ export default function VideoProvider({ children }: PropsWithChildren) {
         </View>
     }
 
-    return (
-        <>
-            {children}
-        </>
-    )
+    return <StreamVideo client={videoClient} >{children}</StreamVideo>
 }

@@ -11,6 +11,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import axiosClient from "@/services/Apis/axiosClient";
 import { API } from "@/services/Apis/api";
 import CallScreen from "@/screens/CallScreen";
+import VideoProvider from "@/providers/VideoProvider";
 
 const Stact = createStackNavigator();
 
@@ -43,23 +44,25 @@ export default function MessageNavigation() {
 
     return (
         // <ChatProvider>
-        <Stact.Navigator screenOptions={{
-            title: 'Appointment History', headerTitleStyle: {
-                fontFamily: OutfitBold
-            }, headerLeft: () => <></>,
-        }}>
-            <Stact.Screen name="CallScreen" component={CallScreen} />
-            <Stact.Screen name="ListChannel" component={ListChannel} />
-            <Stact.Screen name="ChannelScreen" component={ChannelScreen} options={({ route }) => ({
-                headerRight: () => (
-                    params && (<View style={{ marginRight: 20 }}>
-                        <TouchableOpacity onPress={handleCompleteAppointment}>
-                            <Text style={{ fontFamily: OutfitRegular, color: Colors.primary }}>Complete</Text>
-                        </TouchableOpacity>
-                    </View>)
-                )
-            })} />
-        </Stact.Navigator>
+        <VideoProvider>
+            <Stact.Navigator screenOptions={{
+                title: 'Appointment History', headerTitleStyle: {
+                    fontFamily: OutfitBold
+                }, headerLeft: () => <></>,
+            }}>
+                <Stact.Screen name="CallScreen" component={CallScreen} />
+                <Stact.Screen name="ListChannel" component={ListChannel} />
+                <Stact.Screen name="ChannelScreen" component={ChannelScreen} options={({ route }) => ({
+                    headerRight: () => (
+                        params && (<View style={{ marginRight: 20 }}>
+                            <TouchableOpacity onPress={handleCompleteAppointment}>
+                                <Text style={{ fontFamily: OutfitRegular, color: Colors.primary }}>Complete</Text>
+                            </TouchableOpacity>
+                        </View>)
+                    )
+                })} />
+            </Stact.Navigator>
+        </VideoProvider>
         // </ChatProvider>
     )
 }
