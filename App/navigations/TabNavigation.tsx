@@ -67,7 +67,7 @@ export default function TabNavigation() {
             <Tab.Screen
                 key="Appointment"
                 name="Appointment"
-                component={Appointment}
+                component={AppointmentNavigation}
                 options={{
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons name="calendar-clock" size={size} color={color} />
@@ -87,7 +87,7 @@ export default function TabNavigation() {
             <Tab.Screen
                 key="Profile"
                 name="Profile"
-                component={Profile}
+                component={ProfileNavigation}
                 options={{
                     tabBarIcon: ({ color, size }) => (
                         <FontAwesome5 name="user" size={size} color={color} />
