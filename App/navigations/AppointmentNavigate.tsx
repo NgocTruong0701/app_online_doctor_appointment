@@ -12,14 +12,18 @@ import axiosClient from "@/services/Apis/axiosClient";
 import { API } from "@/services/Apis/api";
 import AppointmentDetails from "@/screens/AppointmentDetails";
 import Appointment from "@/screens/Appointment";
+import CallScreen from "@/screens/CallScreen";
+import LeaveAReview from "@/screens/LeaveAReview";
 
 const Stact = createStackNavigator();
 
 export default function AppointmentNavigation() {
     return (
-        <Stact.Navigator screenOptions={{ headerShown: false }}>
+        <Stact.Navigator initialRouteName='AppointmentScreen' screenOptions={{ headerShown: false }}>
             <Stact.Screen name="AppointmentScreen" component={Appointment} />
             <Stact.Screen name="AppointmentDetails" component={AppointmentDetails} />
+            <Stact.Screen name="CallScreen" component={CallScreen} />
+            <Stact.Screen name="LeaveAReview" component={LeaveAReview} />
         </Stact.Navigator>
     )
 }

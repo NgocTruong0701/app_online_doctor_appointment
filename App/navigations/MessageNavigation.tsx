@@ -43,26 +43,21 @@ export default function MessageNavigation() {
     }
 
     return (
-        // <ChatProvider>
-        <VideoProvider>
-            <Stact.Navigator screenOptions={{
-                title: 'Appointment History', headerTitleStyle: {
-                    fontFamily: OutfitBold
-                }, headerLeft: () => <></>,
-            }}>
-                <Stact.Screen name="CallScreen" component={CallScreen} />
-                <Stact.Screen name="ListChannel" component={ListChannel} />
-                <Stact.Screen name="ChannelScreen" component={ChannelScreen} options={({ route }) => ({
-                    headerRight: () => (
-                        params && (<View style={{ marginRight: 20 }}>
-                            <TouchableOpacity onPress={handleCompleteAppointment}>
-                                <Text style={{ fontFamily: OutfitRegular, color: Colors.primary }}>Complete</Text>
-                            </TouchableOpacity>
-                        </View>)
-                    )
-                })} />
-            </Stact.Navigator>
-        </VideoProvider>
-        // </ChatProvider>
+        <Stact.Navigator initialRouteName='ListChannel' screenOptions={{
+            title: 'Appointment History', headerTitleStyle: {
+                fontFamily: OutfitBold
+            }, headerLeft: () => <></>,
+        }}>
+            <Stact.Screen name="ListChannel" component={ListChannel} />
+            <Stact.Screen name="ChannelScreen" component={ChannelScreen} options={({ route }) => ({
+                headerRight: () => (
+                    params && (<View style={{ marginRight: 20 }}>
+                        <TouchableOpacity onPress={handleCompleteAppointment}>
+                            <Text style={{ fontFamily: OutfitRegular, color: Colors.primary }}>Complete</Text>
+                        </TouchableOpacity>
+                    </View>)
+                )
+            })} />
+        </Stact.Navigator>
     )
 }

@@ -11,6 +11,10 @@ import moment from "moment";
 import { genderOption, packageIcons } from "@/constants/constants";
 import { Ionicons } from '@expo/vector-icons';
 import { useChatContext } from "stream-chat-expo";
+import { useStreamVideoClient } from "@stream-io/video-react-native-sdk";
+import * as Crypto from 'expo-crypto';
+import { useAppDispatch } from "@/redux/store";
+import { actions as appStateActions } from "@/redux/reducers/appState";
 
 export default function AppointmentDetails() {
     const { client } = useChatContext();
@@ -24,6 +28,9 @@ export default function AppointmentDetails() {
     const dateNow = moment(new Date());
     const isAfterOrEqual = dateNow.isSame(moment(appointment.date), 'day');
     const isTruncated = appointment.description && appointment.description.length > 100;
+    const dispatch = useAppDispatch();
+
+    const videoClient = useStreamVideoClient();
 
     const appointmentActions = {
         'Messaging': async () => {
@@ -44,9 +51,21 @@ export default function AppointmentDetails() {
             console.log('Voice Call');
             // Thực hiện logic cho Voice Call
         },
-        'Video Call': () => {
-            console.log('Video Call');
-            // Thực hiện logic cho Video Call
+        'Video Call': async () => {
+
+            const UUID = Crypto.randomUUID();
+            const call = videoClient?.call('default', UUID);
+            dispatch(appStateActions.setAppointmentCallId(appointment.id));
+            await call?.getOrCreate({
+                ring: true,
+                data: {
+                    members: [{ user_id: `${patient?.id}` }, { user_id: `${doctor?.id}` }]
+                }
+            });
+
+            // navigation.navigate('CallScreen' as never, {
+            //     callId: UUID
+            // });
         },
     };
 

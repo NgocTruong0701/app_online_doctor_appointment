@@ -15,7 +15,7 @@ const Stact = createStackNavigator();
 
 export default function HomeNavigation() {
     return (
-        <Stact.Navigator screenOptions={{ headerShown: false }}>
+        <Stact.Navigator initialRouteName='HomeScreen' screenOptions={{ headerShown: false }}>
             <Stact.Screen name="HomeScreen" component={Home} />
             <Stact.Screen name="DoctorOfSpecialityList" initialParams={{ categoryName: '' }} component={DoctorOfSpecialityList} />
             <Stact.Screen name="DoctorDetails" component={DoctorDetails} />

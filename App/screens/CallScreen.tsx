@@ -1,31 +1,43 @@
-import { CallContent, StreamCall, StreamVideo, StreamVideoClient, User, useStreamVideoClient } from "@stream-io/video-react-native-sdk";
-import { useEffect } from "react";
-import { PermissionsAndroid, Platform } from "react-native";
-
-const callId = 'default_eeae273e-8a0c-4c6d-9090-0182a1d857e8'
+import { useAppSelector } from "@/redux/store";
+import { API } from "@/services/Apis/api";
+import axiosClient from "@/services/Apis/axiosClient";
+import { useNavigation } from "@react-navigation/native";
+import { CallContent, RingingCallContent, StreamCall, useCalls } from "@stream-io/video-react-native-sdk";
 
 export default function CallScreen() {
-    useEffect(() => {
-        const run = async () => {
-            if (Platform.OS === 'android') {
-                await PermissionsAndroid.requestMultiple([
-                    'android.permission.POST_NOTIFICATIONS',
-                    'android.permission.BLUETOOTH_CONNECT',
-                    "android.permission.CAMERA",
-                    "android.permission.RECORD_AUDIO"
-                ]);
-            }
-        };
-        run();
-    }, []);
+    const calls = useCalls();
+    const call = calls[0];
+    const navigation = useNavigation();
 
-    const client = useStreamVideoClient();
-    const call = client?.call('default', callId);
-    call?.join({ create: true });
+    if (!call) {
+        if (navigation.canGoBack()) {
+            navigation.navigate('AppointmentScreen' as never);
+        } else {
+            navigation.navigate('AppointmentScreen' as never);
+        }
+        return null;
+    }
 
     return (
-        <StreamCall call={call!}>
-            <CallContent />
+        <StreamCall call={call}>
+            <RingingCallContent CallContent={CallContentCustom} />
         </StreamCall>
+    );
+}
+
+function CallContentCustom() {
+    const { appointmentCallId } = useAppSelector(state => state.appState);
+
+    return (
+        <CallContent onHangupCallHandler={() => {
+            if (!(appointmentCallId === 0 || appointmentCallId === undefined || appointmentCallId === null)) {
+                axiosClient.post(`${API.API_COMPLETE_APPOINTMENT}/${appointmentCallId}`)
+                    .then(response => {
+                        console.log(response.data);
+                    }).catch(err => {
+                        console.error(err.message);
+                    });
+            }
+        }} />
     )
 }

@@ -4936,7 +4936,7 @@ expo-constants@~15.4.0, expo-constants@~15.4.3:
   dependencies:
     "@expo/config" "~8.5.0"
 
-expo-crypto@~12.8.0:
+expo-crypto@~12.8.0, expo-crypto@~12.8.1:
   version "12.8.1"
   resolved "https://registry.npmjs.org/expo-crypto/-/expo-crypto-12.8.1.tgz"
   integrity sha512-EJEzmfBUSkGfALTlZRKUbh1RMKF7mWI12vkhO2w6bhGO4bjgGB8XzUHgLfrvSjphDFMx/lwaR6bAQDmXKO9UkQ==
@@ -7941,6 +7941,11 @@ react-native-screens@~3.29.0:
   dependencies:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
+
+react-native-stock-star-rating@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/react-native-stock-star-rating/-/react-native-stock-star-rating-1.0.6.tgz#b28fb5d61a9e64a7581d73d307055fb86c32836c"
+  integrity sha512-YQMGVYX03kq9cW0Of0y+fad9A1RpyM/ZOKMb2o15DfITcceLlrz5x83B6kBOl6SxM/YzdXpMvphWNZehilJ46g==
 
 react-native-svg@14.1.0:
   version "14.1.0"

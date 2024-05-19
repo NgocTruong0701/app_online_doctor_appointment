@@ -70,7 +70,10 @@ export default function AppoinmentMessItem({ appointment }: IAppointmentItemProp
     }
 
     const handleLeaveAReview = () => {
-
+        navigation.navigate('LeaveAReview', {
+            doctor: appointment.doctor,
+            patient: appointment.patient,
+        })
     }
 
     return (
@@ -131,7 +134,7 @@ export default function AppoinmentMessItem({ appointment }: IAppointmentItemProp
                             <TouchableOpacity onPress={handleBookAgainAppointment} style={{ width: '100%', borderWidth: 1.5, borderRadius: 50, padding: 5, borderColor: Colors.primary, paddingHorizontal: 40 }}>
                                 <Text style={{ textAlign: 'center', fontFamily: OutfitSemiBold, color: Colors.primary }}>Book Again</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={handleCancalAppointment} style={{ backgroundColor: Colors.primary, width: '100%', borderWidth: 1.5, borderRadius: 50, padding: 5, borderColor: Colors.primary, paddingHorizontal: 40 }}>
+                            <TouchableOpacity onPress={handleLeaveAReview} style={{ backgroundColor: Colors.primary, width: '100%', borderWidth: 1.5, borderRadius: 50, padding: 5, borderColor: Colors.primary, paddingHorizontal: 40 }}>
                                 <Text style={{ textAlign: 'center', fontFamily: OutfitSemiBold, color: Colors.white }}>Leave a Review</Text>
                             </TouchableOpacity>
                         </View>
