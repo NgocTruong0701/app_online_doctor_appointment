@@ -68,8 +68,10 @@ export default function LeaveAReview() {
             date: formattedDate,
         }
 
-        console.log('aaa', dataUpdate);
         const data = !feedBackOld ? dataCreate : dataUpdate;
+        console.log(api);
+        console.log(data);
+
         axiosClient.post(api, data).then((response) => {
             setIsVisible(true);
             setIsSuccess(true);

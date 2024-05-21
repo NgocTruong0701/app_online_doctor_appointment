@@ -5,19 +5,37 @@ import { Colors } from "@assets/Shared";
 import { OutfitBold, OutfitRegular, OutfitSemiBold } from "@assets/Shared/typography";
 import { useRoute } from "@react-navigation/native";
 import { useCallback, useEffect, useState } from "react";
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { FlatList, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { FontAwesome } from '@expo/vector-icons';
 import ActionButton from "@/components/DoctorDetails/ActionButton";
 import SubTitle from "@/components/DoctorDetails/SubTitle";
 import SubHeading from "@/components/Home/SubHeading";
 import BookAppointmentButton from "@/components/DoctorDetails/BookAppointmentButton";
+import axiosClient from "@/services/Apis/axiosClient";
+import { API } from "@/services/Apis/api";
+import { defaultLimit } from "@/constants/constants";
+
+export interface IFeedBackResponse {
+    id?: number,
+    rating?: number,
+    comment?: string,
+    date?: string,
+    patientId?: number,
+    doctorId?: number,
+    appointmentId?: number | null,
+}
 
 export default function DoctorDetails() {
     const param = useRoute().params;
     const [doctor, setDoctor] = useState<IDoctorResponse>(param.doctor);
+    const [reviews, setReviews] = useState<IFeedBackResponse[]>([]);
     useEffect(() => {
         setDoctor(param.doctor);
-    }, []);
+        axiosClient.get(`${API.API_GET_REVIEW_DOCTOR}/${doctor.id}?limit=${defaultLimit}`)
+            .then(response => {
+                setReviews(response.data.data);
+            });
+    }, [param.doctor.id]);
 
     return (
         <>
@@ -46,6 +64,12 @@ export default function DoctorDetails() {
 
                 <View style={{ margin: 10 }}>
                     <SubHeading subHeadingTitle="Reviews" route={null} />
+                    <FlatList
+                        data={reviews}
+                        renderItem={({ item }) => (
+                            
+                        )}
+                    />
                 </View>
             </ScrollView>
             <View style={{ backgroundColor: Colors.white, borderTopLeftRadius: 20, borderTopRightRadius: 20, alignItems: 'center' }}>
