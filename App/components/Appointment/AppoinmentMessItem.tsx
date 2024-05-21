@@ -72,7 +72,7 @@ export default function AppoinmentMessItem({ appointment }: IAppointmentItemProp
     const handleLeaveAReview = () => {
         navigation.navigate('LeaveAReview', {
             doctor: appointment.doctor,
-            patient: appointment.patient,
+            appointment: appointment,
         })
     }
 
@@ -152,8 +152,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     image: {
-        width: 100,
-        height: 100,
+        width: 90,
+        height: 90,
         borderRadius: 15,
     },
     infoContainer: {
