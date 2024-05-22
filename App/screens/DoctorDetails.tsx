@@ -5,7 +5,7 @@ import { Colors } from "@assets/Shared";
 import { OutfitBold, OutfitRegular, OutfitSemiBold } from "@assets/Shared/typography";
 import { useRoute } from "@react-navigation/native";
 import { useCallback, useEffect, useState } from "react";
-import { FlatList, Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { FontAwesome } from '@expo/vector-icons';
 import ActionButton from "@/components/DoctorDetails/ActionButton";
 import SubTitle from "@/components/DoctorDetails/SubTitle";
@@ -13,7 +13,8 @@ import SubHeading from "@/components/Home/SubHeading";
 import BookAppointmentButton from "@/components/DoctorDetails/BookAppointmentButton";
 import axiosClient from "@/services/Apis/axiosClient";
 import { API } from "@/services/Apis/api";
-import { defaultLimit } from "@/constants/constants";
+import { defaultLimit, screenWidth } from "@/constants/constants";
+import Review from "@/components/DoctorDetails/Review";
 
 export interface IFeedBackResponse {
     id?: number,
@@ -23,19 +24,36 @@ export interface IFeedBackResponse {
     patientId?: number,
     doctorId?: number,
     appointmentId?: number | null,
+    patientName?: string,
+    patientAvatar?: string,
 }
 
 export default function DoctorDetails() {
     const param = useRoute().params;
     const [doctor, setDoctor] = useState<IDoctorResponse>(param.doctor);
-    const [reviews, setReviews] = useState<IFeedBackResponse[]>([]);
+    const [reviews, setReviews] = useState<IFeedBackResponse[][]>([]);
+
     useEffect(() => {
         setDoctor(param.doctor);
         axiosClient.get(`${API.API_GET_REVIEW_DOCTOR}/${doctor.id}?limit=${defaultLimit}`)
             .then(response => {
-                setReviews(response.data.data);
+                const reviewData: IFeedBackResponse[] = response.data.data;
+                const pairedReviews = createPairs(reviewData);
+                setReviews(pairedReviews);
             });
     }, [param.doctor.id]);
+
+    const createPairs = (data: IFeedBackResponse[]): IFeedBackResponse[][] => {
+        const pairs: IFeedBackResponse[][] = [];
+        for (let i = 0; i < data.length; i += 2) {
+            if (i + 1 < data.length) {
+                pairs.push([data[i], data[i + 1]]);
+            } else {
+                pairs.push([data[i]]);
+            }
+        }
+        return pairs;
+    }
 
     return (
         <>
@@ -66,9 +84,19 @@ export default function DoctorDetails() {
                     <SubHeading subHeadingTitle="Reviews" route={null} />
                     <FlatList
                         data={reviews}
+                        horizontal={true}
+                        showsHorizontalScrollIndicator={false}
                         renderItem={({ item }) => (
-                            
+                            <Review reviews={item} />
                         )}
+                        style={{ width: '100%' }}
+                        pagingEnabled
+                        decelerationRate={0}
+                        snapToOffsets={reviews.map((x, i) => {
+                            return ((i * (screenWidth)) + screenWidth)
+                        })
+                        }
+                        snapToAlignment={"center"}
                     />
                 </View>
             </ScrollView>

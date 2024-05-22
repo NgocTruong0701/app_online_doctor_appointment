@@ -1,4 +1,4 @@
-import { Platform } from "react-native";
+import { Dimensions, Platform } from "react-native";
 
 export const StorageKey = {
   ACCESS_TOKEN: "ACCESS_TOKEN",
@@ -59,3 +59,5 @@ export const roles = [
 export const defaultAvatar = 'https://doctor-appointment-bucket.s3.ap-southeast-1.amazonaws.com/avatar/avatar-default-svgrepo-com.svg';
 
 export const defaultLimit = 10;
+
+export const screenWidth = Dimensions.get('screen').width;
