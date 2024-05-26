@@ -1,6 +1,7 @@
 import AppointmentMessList from "@/components/Appointment/AppointmentMessList";
 import AppointmentTab from "@/components/Appointment/AppointmentTab";
 import { appointmentStatus } from "@/constants/constants";
+import { storage } from "@/localStorage";
 import ChatProvider from "@/providers/ChatProvider";
 import { IPatient } from "@/redux/reducers/user/type";
 import { useAppSelector } from "@/redux/store";
@@ -40,6 +41,8 @@ export default function Appointment() {
     const navigation = useNavigation();
     const [isLoading, setIsLoading] = useState(true);
 
+    console.log(storage.getString('token'))
+
     useFocusEffect(
         useCallback(() => {
             axiosClient.get(`${API.API_GET_APPOINTMENT_BY_USERID}/${user.id}?status=${activeTab}`)
@@ -57,16 +60,16 @@ export default function Appointment() {
 
     return (
         <View>
-            <SafeAreaView style={{paddingBottom: 177}}>
-            <Text style={{ fontFamily: OutfitBold, fontSize: 20, backgroundColor: Colors.white, padding: 15 }}>My Appointment</Text>
-            <AppointmentTab setActiveTab={(value: string) => { setActiveTab(value); }} />
+            <SafeAreaView style={{ paddingBottom: 177 }}>
+                <Text style={{ fontFamily: OutfitBold, fontSize: 20, backgroundColor: Colors.white, padding: 15 }}>My Appointment</Text>
+                <AppointmentTab setActiveTab={(value: string) => { setActiveTab(value); }} />
 
-            {isLoading && <ActivityIndicator size={'large'} color={Colors.primary} />}
-            {!isLoading && appointments.length > 0 && <AppointmentMessList appointment={appointments} />}
-            {!isLoading && appointments.length === 0 && <View style={{ marginTop: 50 }}>
-                <Text style={{ textAlign: 'center', fontFamily: OutfitSemiBold, fontSize: 20 }}>You don't have an appointment yet</Text>
-                <Text style={{ textAlign: 'center', fontFamily: OutfitRegular, fontSize: 16, color: Colors.text_gray, marginTop: 10 }}>You don't have a doctor's appointment scheduled at the moment</Text>
-            </View>}
+                {isLoading && <ActivityIndicator size={'large'} color={Colors.primary} />}
+                {!isLoading && appointments.length > 0 && <AppointmentMessList appointment={appointments} />}
+                {!isLoading && appointments.length === 0 && <View style={{ marginTop: 50 }}>
+                    <Text style={{ textAlign: 'center', fontFamily: OutfitSemiBold, fontSize: 20 }}>You don't have an appointment yet</Text>
+                    <Text style={{ textAlign: 'center', fontFamily: OutfitRegular, fontSize: 16, color: Colors.text_gray, marginTop: 10 }}>You don't have a doctor's appointment scheduled at the moment</Text>
+                </View>}
             </SafeAreaView>
         </View>
     )

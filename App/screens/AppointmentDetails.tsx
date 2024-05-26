@@ -8,16 +8,18 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { Dimensions, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { IAppointment } from "./Appointment";
 import moment from "moment";
-import { genderOption, packageIcons } from "@/constants/constants";
+import { genderOption, packageIcons, rolePatient } from "@/constants/constants";
 import { Ionicons } from '@expo/vector-icons';
 import { useChatContext } from "stream-chat-expo";
 import { useStreamVideoClient } from "@stream-io/video-react-native-sdk";
 import * as Crypto from 'expo-crypto';
-import { useAppDispatch } from "@/redux/store";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { actions as appStateActions } from "@/redux/reducers/appState";
 
 export default function AppointmentDetails() {
     const { client } = useChatContext();
+    const { user } = useAppSelector(stase => stase.user);
+    const role = user.role;
     const params = useRoute().params;
     const appointment = params.appointment as IAppointment;
     const { doctor, patient } = appointment;
@@ -47,9 +49,16 @@ export default function AppointmentDetails() {
                 appointmentid: appointment.id,
             });
         },
-        'Voice Call': () => {
-            console.log('Voice Call');
-            // Thực hiện logic cho Voice Call
+        'Voice Call': async () => {
+            const UUID = Crypto.randomUUID();
+            const call = videoClient?.call('default', UUID);
+            dispatch(appStateActions.setAppointmentCallId(appointment.id));
+            await call?.getOrCreate({
+                ring: true,
+                data: {
+                    members: [{ user_id: `${patient?.id}` }, { user_id: `${doctor?.id}` }]
+                }
+            });
         },
         'Video Call': async () => {
 
@@ -75,15 +84,15 @@ export default function AppointmentDetails() {
                 <PageHeader title={"My Appointemnt"} />
 
                 <View style={styles.cardContainer}>
-                    <Image source={{ uri: doctor?.avatar }} style={styles.image} />
+                    <Image source={{ uri: role == rolePatient ? doctor?.avatar : patient?.avatar }} style={styles.image} />
                     <View style={styles.infoContainer}>
                         <View style={styles.info}>
-                            <Text style={styles.name}>{doctor?.name}</Text>
+                            <Text style={styles.name}>{role == rolePatient ? doctor?.name : patient?.name}</Text>
                         </View>
                         <View style={styles.divider} />
                         <View>
-                            <Text style={styles.textInfo}>{doctor?.specialization_name}</Text>
-                            <Text style={styles.textInfo2}>{doctor?.hospital}</Text>
+                            <Text style={styles.textInfo}>{role == rolePatient ? doctor?.specialization_name : patient?.address}</Text>
+                            <Text style={styles.textInfo2}>{role == rolePatient ? doctor?.hospital : patient?.phone_number}</Text>
                         </View>
                     </View>
                 </View>
@@ -128,7 +137,7 @@ export default function AppointmentDetails() {
                 </View>
 
                 <View>
-                    <Title title="Your Package" />
+                    <Title title={role == rolePatient ? "Your Package" : "Patient's Package"} />
                     <View style={{
                         marginHorizontal: 10, marginTop: 10, backgroundColor: Colors.white,
                         padding: 8,

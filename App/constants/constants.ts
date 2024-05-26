@@ -56,6 +56,10 @@ export const roles = [
   { id: 2, name: 'doctor' },
 ];
 
+export const rolePatient = 'patient';
+
+export const roleDoctor = 'doctor';
+
 export const defaultAvatar = 'https://doctor-appointment-bucket.s3.ap-southeast-1.amazonaws.com/avatar/avatar-default-svgrepo-com.svg';
 
 export const defaultLimit = 10;

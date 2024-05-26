@@ -25,16 +25,18 @@ export interface IFeedBackResponse {
     doctorId?: number,
     appointmentId?: number | null,
     patientName?: string,
-    patientAvatar?: string,
+    patientAvatar?: string | null,
 }
 
 export default function DoctorDetails() {
     const param = useRoute().params;
     const [doctor, setDoctor] = useState<IDoctorResponse>(param.doctor);
     const [reviews, setReviews] = useState<IFeedBackResponse[][]>([]);
+    const [isFavorite, setIsFavorite] = useState(false);
 
     useEffect(() => {
         setDoctor(param.doctor);
+        doctor?.isFavorite == 1 ? setIsFavorite(true) : setIsFavorite(false);
         axiosClient.get(`${API.API_GET_REVIEW_DOCTOR}/${doctor.id}?limit=${defaultLimit}`)
             .then(response => {
                 const reviewData: IFeedBackResponse[] = response.data.data;
@@ -65,7 +67,7 @@ export default function DoctorDetails() {
                     <View style={styles.infoContainer}>
                         <View style={styles.info}>
                             <Text style={styles.name}>{doctor?.name}</Text>
-                            <FontAwesome name="heart-o" size={22} color={Colors.blue} />
+                            {<FontAwesome name={isFavorite ? "heart" : "heart-o"} size={22} color={Colors.blue} />}
                         </View>
                         <View style={styles.divider} />
                         <View>
@@ -82,7 +84,7 @@ export default function DoctorDetails() {
 
                 <View style={{ margin: 10 }}>
                     <SubHeading subHeadingTitle="Reviews" route={null} />
-                    <FlatList
+                    {reviews.length != 0 && <FlatList
                         data={reviews}
                         horizontal={true}
                         showsHorizontalScrollIndicator={false}
@@ -97,7 +99,7 @@ export default function DoctorDetails() {
                         })
                         }
                         snapToAlignment={"center"}
-                    />
+                    />}
                 </View>
             </ScrollView>
             <View style={{ backgroundColor: Colors.white, borderTopLeftRadius: 20, borderTopRightRadius: 20, alignItems: 'center' }}>

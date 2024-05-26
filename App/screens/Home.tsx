@@ -7,7 +7,6 @@ import { storage } from "@/localStorage";
 import { View } from "react-native";
 
 export default function Home() {
-    console.log(storage.getString('token'))
 
     return (
         <View style={{ padding: 10, marginTop: 20 }}>

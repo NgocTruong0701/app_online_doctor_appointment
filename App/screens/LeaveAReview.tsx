@@ -13,8 +13,9 @@ import { Image, ScrollView, Text, TextInput, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { RatingInput } from 'react-native-stock-star-rating';
 import { actions as appStateActions } from "@/redux/reducers/appState";
-import { useAppDispatch } from "@/redux/store";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
 import CustomModal from "@/components/Modal";
+import { rolePatient } from "@/constants/constants";
 
 interface IFeedBack {
     id: number,
@@ -32,6 +33,9 @@ export default function LeaveAReview() {
     const formattedDate = now.format('YYYY-MM-DD HH:mm:ss');
     const dispatch = useAppDispatch();
     const [feedBackOld, setFeedBackOld] = useState<IFeedBack>();
+
+    const { user } = useAppSelector(stase => stase.user);
+    const role = user.role;
 
     const [isVisible, setIsVisible] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
@@ -90,54 +94,96 @@ export default function LeaveAReview() {
     }
 
     return (
-        <>
-            <ScrollView style={{ padding: 10, marginTop: 20 }}>
-                <View>
-                    <PageHeader title="Review Summary" />
+        <View>
+            {role === rolePatient ? (
+                <>
+                    <ScrollView style={{ padding: 10, marginTop: 20 }}>
+                        <View>
+                            <PageHeader title="Review Summary" />
 
-                    <View style={{ marginTop: 25, marginBottom: 25, display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-                        <Image source={{ uri: doctor.avatar }} style={{ width: 150, height: 150, borderRadius: 99 }} />
+                            <View style={{ marginTop: 25, marginBottom: 25, display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+                                <Image source={{ uri: doctor.avatar }} style={{ width: 150, height: 150, borderRadius: 99 }} />
+                            </View>
+                            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+                                <Text style={{ fontFamily: OutfitBold, fontSize: 20, textAlign: 'center', width: '80%' }}>How was your experience with {doctor.name}</Text>
+                            </View>
+                            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+                                <RatingInput
+                                    rating={rating}
+                                    setRating={setRating}
+                                    size={50}
+                                    maxStars={5}
+                                    bordered={false}
+                                    color={Colors.primary}
+                                />
+                            </View>
+                        </View>
+
+                        <View style={{ borderTopColor: Colors.gray, borderTopWidth: 0.5, marginTop: 15, marginRight: 10, marginLeft: 10 }}>
+                            <Title title="Write Your Review" />
+                            <View style={{ marginTop: 10, borderWidth: 0.6, borderColor: Colors.gray, padding: 10, borderRadius: 8, backgroundColor: Colors.white }} >
+                                <TextInput
+                                    multiline={true}
+                                    numberOfLines={14}
+                                    onChangeText={(text) => setReview(text)}
+                                    value={review}
+                                    placeholder="Your review here"
+                                    style={{ textAlignVertical: 'top', fontFamily: OutfitRegular }}
+                                />
+                            </View>
+                        </View>
+                    </ScrollView>
+                    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '100%', gap: 20, marginBottom: 10 }}>
+                        <TouchableOpacity onPress={() => {
+                            navigate('AppointmentScreen');
+                        }} style={{ width: '100%', borderRadius: 50, padding: 15, backgroundColor: Colors.secondary, paddingHorizontal: 60 }}>
+                            <Text style={{ textAlign: 'center', fontFamily: OutfitSemiBold, color: Colors.primary }}>Cancel</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={handleSendReview} style={{ backgroundColor: Colors.primary, width: '100%', borderWidth: 1.5, borderRadius: 50, padding: 15, borderColor: Colors.primary, paddingHorizontal: 60 }}>
+                            <Text style={{ textAlign: 'center', fontFamily: OutfitSemiBold, color: Colors.white }}>Submit</Text>
+                        </TouchableOpacity>
                     </View>
-                    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-                        <Text style={{ fontFamily: OutfitBold, fontSize: 20, textAlign: 'center', width: '80%' }}>How was your experience with {doctor.name}</Text>
+                    <CustomModal isVisible={isVisible} setIsVisible={setIsVisible} isSuccess={isSuccess} message={message} title={title} textButton={textButton} onPress={onPress} />
+                </>
+            ) : (
+                <View style={{ padding: 10, marginTop: 20 }}>
+                    <View>
+                        <PageHeader title="Review Summary" />
+
+                        <View style={{ marginTop: 25, marginBottom: 25, display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+                            <Image source={{ uri: appointment.patient.avatar }} style={{ width: 150, height: 150, borderRadius: 99 }} />
+                        </View>
+                        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+                            <Text style={{ fontFamily: OutfitBold, fontSize: 20, textAlign: 'center', width: '80%' }}>This is feedback of {appointment.patient.name}</Text>
+                        </View>
+                        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+                            <RatingInput
+                                rating={rating}
+                                setRating={() => { }}
+                                size={50}
+                                maxStars={5}
+                                bordered={false}
+                                color={Colors.primary}
+                            />
+                        </View>
                     </View>
-                    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-                        <RatingInput
-                            rating={rating}
-                            setRating={setRating}
-                            size={50}
-                            maxStars={5}
-                            bordered={false}
-                            color={Colors.primary}
-                        />
+
+                    <View style={{ borderTopColor: Colors.gray, borderTopWidth: 0.5, marginTop: 15, marginRight: 10, marginLeft: 10 }}>
+                        <Title title={`${appointment.patient.name}'s Review`} />
+                        <View style={{ marginTop: 10, borderWidth: 0.6, borderColor: Colors.gray, padding: 10, borderRadius: 8, backgroundColor: Colors.white }} >
+                            <TextInput
+                                multiline={true}
+                                numberOfLines={14}
+                                editable={false}
+                                onChangeText={(text) => setReview(text)}
+                                value={review}
+                                placeholder="Your review here"
+                                style={{ textAlignVertical: 'top', fontFamily: OutfitRegular }}
+                            />
+                        </View>
                     </View>
                 </View>
-
-                <View style={{ borderTopColor: Colors.gray, borderTopWidth: 0.5, marginTop: 15, marginRight: 10, marginLeft: 10 }}>
-                    <Title title="Write Your Review" />
-                    <View style={{ marginTop: 10, borderWidth: 0.6, borderColor: Colors.gray, padding: 10, borderRadius: 8, backgroundColor: Colors.white }} >
-                        <TextInput
-                            multiline={true}
-                            numberOfLines={14}
-                            onChangeText={(text) => setReview(text)}
-                            value={review}
-                            placeholder="Your review here"
-                            style={{ textAlignVertical: 'top', fontFamily: OutfitRegular }}
-                        />
-                    </View>
-                </View>
-            </ScrollView>
-            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '100%', gap: 20, marginBottom: 10 }}>
-                <TouchableOpacity onPress={() => {
-                    navigate('AppointmentScreen');
-                }} style={{ width: '100%', borderRadius: 50, padding: 15, backgroundColor: Colors.secondary, paddingHorizontal: 60 }}>
-                    <Text style={{ textAlign: 'center', fontFamily: OutfitSemiBold, color: Colors.primary }}>Cancel</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={handleSendReview} style={{ backgroundColor: Colors.primary, width: '100%', borderWidth: 1.5, borderRadius: 50, padding: 15, borderColor: Colors.primary, paddingHorizontal: 60 }}>
-                    <Text style={{ textAlign: 'center', fontFamily: OutfitSemiBold, color: Colors.white }}>Submit</Text>
-                </TouchableOpacity>
-            </View>
-            <CustomModal isVisible={isVisible} setIsVisible={setIsVisible} isSuccess={isSuccess} message={message} title={title} textButton={textButton} onPress={onPress} />
-        </>
+            )}
+        </View>
     )
 }

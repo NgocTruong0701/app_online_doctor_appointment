@@ -1,4 +1,4 @@
-import { appointmentStatus, packageIcons } from "@/constants/constants";
+import { appointmentStatus, packageIcons, rolePatient } from "@/constants/constants";
 import { IAppointment } from "@/screens/Appointment";
 import { Colors } from "@assets/Shared";
 import { OutfitBold, OutfitRegular, OutfitSemiBold } from "@assets/Shared/typography";
@@ -6,7 +6,7 @@ import moment from "moment";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { useAppDispatch } from "@/redux/store";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { useNavigation } from "@react-navigation/native";
 import { capitalizeFirstLetter } from "@assets/Shared/utils";
 import axiosClient from "@/services/Apis/axiosClient";
@@ -27,13 +27,16 @@ export default function AppoinmentMessItem({ appointment }: IAppointmentItemProp
     const packageIcon = packageIcons.find((item) => item.name === appointment.packageAppointment.name);
     const navigation = useNavigation();
     const dateNow = moment(new Date());
-    // const isAfterOrEqual = dateNow.isSameOrAfter(moment(appointment.date), 'minute');
+    const isAfterOrEqual = dateNow.isSameOrAfter(moment(appointment.date), 'minute');
     const [isVisible, setIsVisible] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const [message, setMessage] = useState('');
     const [title, setTitle] = useState('');
     const [textButton, setTextButton] = useState('');
     const dispatch = useAppDispatch();
+
+    const { user } = useAppSelector(stase => stase.user);
+    const role = user.role;
 
     const onPress = async () => {
         navigation.navigate('AppointmentDetails' as never, {
@@ -84,10 +87,10 @@ export default function AppoinmentMessItem({ appointment }: IAppointmentItemProp
         }}>
             <TouchableOpacity onPress={onPress} disabled={appointment.status === appointmentStatus.UPCOMING ? false : true}>
                 <View style={styles.container}>
-                    <Image source={{ uri: doctor?.avatar }} style={styles.image} />
+                    <Image source={{ uri: role == rolePatient ? doctor?.avatar : patient?.avatar }} style={styles.image} />
                     <View style={styles.infoContainer}>
                         <View style={styles.info}>
-                            <Text style={styles.name}>{doctor?.name}</Text>
+                            <Text style={styles.name}>{role == rolePatient ? doctor?.name : patient?.name}</Text>
                         </View>
                         <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                             <Text style={styles.textInfo}>{appointment.packageAppointment.name} - </Text>
@@ -126,18 +129,30 @@ export default function AppoinmentMessItem({ appointment }: IAppointmentItemProp
                     <View style={styles.divider} />
                     {appointment.status === appointmentStatus.UPCOMING
                         ? <View>
-                            <TouchableOpacity onPress={handleCancalAppointment} style={{ width: '100%', borderWidth: 1.5, borderRadius: 50, padding: 5, borderColor: Colors.primary }}>
+                            {isAfterOrEqual ? (
+                                <TouchableOpacity disabled={true} style={{ width: '100%', borderWidth: 1.5, borderRadius: 50, padding: 5, borderColor: Colors.secondary, paddingHorizontal: 40 }}>
+                                    <Text style={{ textAlign: 'center', fontFamily: OutfitSemiBold, color: Colors.secondary }}>Cancel Appointment</Text>
+                                </TouchableOpacity>
+                            ) : <TouchableOpacity onPress={handleCancalAppointment} style={{ width: '100%', borderWidth: 1.5, borderRadius: 50, padding: 5, borderColor: Colors.primary }}>
                                 <Text style={{ textAlign: 'center', fontFamily: OutfitSemiBold, color: Colors.primary }}>Cancel Appointment</Text>
-                            </TouchableOpacity>
+                            </TouchableOpacity>}
                         </View>
-                        : <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '100%', gap: 20 }}>
-                            <TouchableOpacity onPress={handleBookAgainAppointment} style={{ width: '100%', borderWidth: 1.5, borderRadius: 50, padding: 5, borderColor: Colors.primary, paddingHorizontal: 40 }}>
-                                <Text style={{ textAlign: 'center', fontFamily: OutfitSemiBold, color: Colors.primary }}>Book Again</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={handleLeaveAReview} style={{ backgroundColor: Colors.primary, width: '100%', borderWidth: 1.5, borderRadius: 50, padding: 5, borderColor: Colors.primary, paddingHorizontal: 40 }}>
-                                <Text style={{ textAlign: 'center', fontFamily: OutfitSemiBold, color: Colors.white }}>Leave a Review</Text>
-                            </TouchableOpacity>
-                        </View>
+                        : <>
+                            {role == rolePatient ? (
+                                <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '100%', gap: 20 }}>
+                                    <TouchableOpacity onPress={handleBookAgainAppointment} style={{ width: '100%', borderWidth: 1.5, borderRadius: 50, padding: 5, borderColor: Colors.primary, paddingHorizontal: 40 }}>
+                                        <Text style={{ textAlign: 'center', fontFamily: OutfitSemiBold, color: Colors.primary }}>Book Again</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={handleLeaveAReview} style={{ backgroundColor: Colors.primary, width: '100%', borderWidth: 1.5, borderRadius: 50, padding: 5, borderColor: Colors.primary, paddingHorizontal: 40 }}>
+                                        <Text style={{ textAlign: 'center', fontFamily: OutfitSemiBold, color: Colors.white }}>Leave a Review</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            ) : (
+                                <TouchableOpacity onPress={handleLeaveAReview} style={{ width: '100%', borderWidth: 1.5, borderRadius: 50, padding: 5, borderColor: Colors.primary, paddingHorizontal: 40 }}>
+                                    <Text style={{ textAlign: 'center', fontFamily: OutfitSemiBold, color: Colors.primary }}>See Review</Text>
+                                </TouchableOpacity>
+                            )}
+                        </>
                     }
                     <CustomModal isVisible={isVisible} setIsVisible={setIsVisible} isSuccess={isSuccess} message={message} title={title} textButton={textButton} onPress={() => setIsVisible(false)} />
                 </View>

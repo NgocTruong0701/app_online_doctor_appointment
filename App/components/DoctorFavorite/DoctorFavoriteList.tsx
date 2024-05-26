@@ -2,7 +2,7 @@ import { FlatList, TouchableOpacity, View } from "react-native";
 import { useEffect, useState } from "react";
 import axiosClient from "@/services/Apis/axiosClient";
 import { API } from "@/services/Apis/api";
-import { IDoctorResponse } from "@/redux/type"; // Đảm bảo interface này được định nghĩa
+import { IDoctorResponse } from "@/redux/type";
 import { useNavigation } from "@react-navigation/native";
 import DoctorCard from "../DoctorScreen/DoctorCard";
 
@@ -19,7 +19,7 @@ export default function DoctorFavoriteList() {
       .catch((error) => {
         console.error(JSON.stringify(error, null, 2));
       });
-  }, []);
+  }, [doctors]);
 
   return (
     <View style={{ marginTop: 30 }}>

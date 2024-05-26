@@ -9,6 +9,10 @@ import * as ImagePicker from "expo-image-picker";
 import { useNavigation } from "@react-navigation/native";
 import { storage } from "@/localStorage";
 import { actions as userAction } from "@/redux/reducers/user";
+import { API } from "@/services/Apis/api";
+import axios from "axios";
+import { actions as appStateActions } from "@/redux/reducers/appState";
+import { getUser } from "@/redux/reducers/user/thunk";
 
 export default function Profile() {
 
@@ -16,7 +20,8 @@ export default function Profile() {
     const avatart = user.doctor ? user.doctor.avatar : user.patient?.avatar;
     const name = user.doctor ? user.doctor.name : user.patient?.name;
     const email = user.email;
-    const [image, setImage] = useState(null);
+    const dispatch = useAppDispatch();
+    const navigation = useNavigation();
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -27,16 +32,39 @@ export default function Profile() {
             quality: 1,
         });
 
-        console.log(result);
-
         if (!result.canceled) {
-            setImage(result.assets[0].uri);
+            const url = result.assets[0].uri;
+            const mimeType = result.assets[0].mimeType;
+            const imgName = `avatar-of-${name}-${new Date().getTime()}`;
+            uploadImage(url, mimeType, imgName);
         }
     };
 
+    const uploadImage = async (uri: string, mimeType?: string, imgName?: string) => {
+        let formData = new FormData();
+        formData.append('file', {
+            uri,
+            name: imgName,
+            type: mimeType
+        });
+        const accessToken = storage.getString('token');
+        dispatch(appStateActions.showLoading());
+        axios.post(API.BASE_URL + API.API_UPLOAD_AVATAR, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization: "Bearer " + accessToken,
+            },
+        })
+            .then(response => {
+                dispatch(getUser()).unwrap().catch(error => {
+                    console.error(error.message);
+                    navigation.navigate("Login" as never);
+                });
+            })
+            .catch(error => { alert('Failed to upload image'); })
+            .finally(() => { dispatch(appStateActions.hideLoading()); });
+    };
 
-    const dispatch = useAppDispatch();
-    const navigation = useNavigation();
     const removeToken = () => {
         storage.set('token', '');
         dispatch(userAction.clearUser());

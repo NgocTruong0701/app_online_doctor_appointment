@@ -11,7 +11,6 @@ export interface IDoctorItemProps {
 
 export default function DoctorItem({ doctor }: IDoctorItemProps) {
     const navigation = useNavigation();
-
     return (
         <TouchableOpacity onPress={() => navigation.navigate('DoctorDetails', {
             doctor: doctor

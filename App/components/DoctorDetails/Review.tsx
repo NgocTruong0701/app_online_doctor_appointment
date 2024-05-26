@@ -9,35 +9,39 @@ interface IReviewProps {
     reviews: IFeedBackResponse[]
 }
 export default function Review({ reviews }: IReviewProps) {
-
     return (
         <View style={{ width: screenWidth, gap: 20 }}>
-            <View style={styles.container}>
-                <Image source={{ uri: reviews[0].patientAvatar }} style={{ width: 50, height: 50, borderRadius: 99 }} />
-                <View style={{}}>
+            {reviews[0] && reviews[0].patientAvatar &&
+                <View style={styles.container}>
+                    <Image source={{ uri: reviews[0].patientAvatar }} style={{ width: 50, height: 50, borderRadius: 99 }} />
                     <View style={{}}>
-                        <Text style={styles.name}>{reviews[0].patientName}</Text>
-                    </View>
-                    <View style={{}} />
-                    <View>
-                        <Text style={styles.comment} numberOfLines={1} ellipsizeMode="tail">{reviews[0].comment}</Text>
-                        <Text style={styles.date}>{moment(reviews[0].date).format('DD/MM/YYYY - hh:mm:ss')}</Text>
+                        <View style={{}}>
+                            <Text style={styles.name}>{reviews[0].patientName}</Text>
+                        </View>
+                        <View style={{}} />
+                        <View>
+                            <Text style={styles.comment} numberOfLines={1} ellipsizeMode="tail">{reviews[0].comment}</Text>
+                            <Text style={styles.date}>{moment(reviews[0].date).format('DD/MM/YYYY - hh:mm:ss')}</Text>
+                        </View>
                     </View>
                 </View>
-            </View>
-            <View style={styles.container}>
-                <Image source={{ uri: reviews[1].patientAvatar }} style={{ width: 50, height: 50, borderRadius: 99 }} />
-                <View style={{ width: '100%' }}>
+            }
+
+            {reviews[1] && reviews[1].patientAvatar &&
+                <View style={styles.container}>
+                    <Image source={{ uri: reviews[1].patientAvatar }} style={{ width: 50, height: 50, borderRadius: 99 }} />
                     <View style={{ width: '100%' }}>
-                        <Text style={styles.name}>{reviews[1].patientName}</Text>
-                    </View>
-                    <View style={{}} />
-                    <View>
-                        <Text style={styles.comment}>{reviews[1].comment}</Text>
-                        <Text style={styles.date}>{moment(reviews[0].date).format('DD/MM/YYYY - hh:mm:ss')}</Text>
+                        <View style={{ width: '100%' }}>
+                            <Text style={styles.name}>{reviews[1].patientName}</Text>
+                        </View>
+                        <View style={{}} />
+                        <View>
+                            <Text style={styles.comment}>{reviews[1].comment}</Text>
+                            <Text style={styles.date}>{moment(reviews[1].date).format('DD/MM/YYYY - hh:mm:ss')}</Text>
+                        </View>
                     </View>
                 </View>
-            </View>
+            }
         </View>
     )
 }

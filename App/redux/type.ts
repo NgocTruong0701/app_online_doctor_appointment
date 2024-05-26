@@ -24,6 +24,7 @@ export interface IDoctorResponse extends ITimeStamp {
     averageRating: string
     feedbackCount: string
     schedule: string
+    isFavorite: number
 }
 
 export interface ISpecialization extends ITimeStamp {

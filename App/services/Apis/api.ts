@@ -30,4 +30,6 @@ export const API = {
     API_GET_FEEDBACK_APPOINTMENT: '/feedbacks/appointment',
     API_UPDATE_FEEDBACK: '/patients/feedback/update',
     API_GET_REVIEW_DOCTOR: '/feedbacks/get-review-doctor',
+    API_SEARCH_DOCTOR: '/doctors/search',
+    API_UPLOAD_AVATAR: '/users/upload-image',
 }

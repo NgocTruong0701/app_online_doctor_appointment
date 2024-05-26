@@ -40,7 +40,7 @@ export default function ActionButton({ doctor }: IDoctorItemProps) {
             name: 'years experience',
             icon: 'chart-line',
             type: 'fontawesome6',
-            value: doctor?.years_experience,
+            value: doctor?.years_experience ?? 0,
         },
         {
             id: 3,

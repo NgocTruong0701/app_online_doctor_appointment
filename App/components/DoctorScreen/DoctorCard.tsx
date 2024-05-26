@@ -18,6 +18,10 @@ export default function DoctorCard({ doctor }: IDoctorItemProps) {
     const { user } = useAppSelector(state => state.user);
     const [isFavorite, setIsFavorite] = useState(false);
 
+    useEffect(() => {
+        doctor?.isFavorite == 1 ? setIsFavorite(true) : setIsFavorite(false);
+    }, [])
+
     const handleFavorite = (doctorId: number | undefined) => {
         if (doctor != undefined) {
             setIsFavorite(!isFavorite);
@@ -40,7 +44,7 @@ export default function DoctorCard({ doctor }: IDoctorItemProps) {
                     <Pressable onPress={() => {
                         handleFavorite(doctor?.id);
                     }}>
-                        <FontAwesome name="heart-o" size={22} color={Colors.blue} />
+                        {<FontAwesome name={isFavorite ? "heart" : "heart-o"} size={22} color={Colors.blue} />}
                     </Pressable>
                 </View>
                 <View style={styles.divider} />

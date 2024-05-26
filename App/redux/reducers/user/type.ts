@@ -18,6 +18,13 @@ export interface IDoctor {
     phone_number: string,
     avatar: string,
     address: string,
+    hospital: string,
+    description: string,
+    years_experience: number,
+    start_day_of_week: string,
+    end_day_of_week: string,
+    time_start: string,
+    time_end: string,
     specialization: ISpecializtion
 }
 
