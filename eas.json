@@ -5,12 +5,26 @@
   "build": {
     "development": {
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "channel": "development"
     },
     "preview": {
-      "distribution": "internal"
+      "env": {
+        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_cHJvZm91bmQtY2hpcG11bmstNzYuY2xlcmsuYWNjb3VudHMuZGV2JA",
+        "EXPO_PUBLIC_BASE_URL": "https://dev-phucduong.ap.ngrok.io",
+        "EXPO_PUBLIC_STREAM_API_KEY": "6dqf5bm87p98"
+      },
+      "distribution": "internal",
+      "channel": "preview"
     },
-    "production": {}
+    "production": {
+      "env": {
+        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_cHJvZm91bmQtY2hpcG11bmstNzYuY2xlcmsuYWNjb3VudHMuZGV2JA",
+        "EXPO_PUBLIC_BASE_URL": "https://dev-phucduong.ap.ngrok.io",
+        "EXPO_PUBLIC_STREAM_API_KEY": "6dqf5bm87p98"
+      },
+      "channel": "production"
+    }
   },
   "submit": {
     "production": {}
