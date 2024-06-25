@@ -4,7 +4,7 @@
 Ứng dụng đặt lịch hẹn bác sĩ trực tuyến.
 
 ## Yêu cầu
-- Node.js
+- Node.js v20.12.1
 - Yarn
 - Expo CLI
 - EAS CLI
